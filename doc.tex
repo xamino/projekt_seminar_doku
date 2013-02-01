@@ -1,12 +1,29 @@
 \documentclass[a4paper]{article}
 
+% Because it looks better:
 \usepackage{a4wide}
+% Take care of input things:
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+% Packages for pictures:
 \usepackage{graphicx}
 \usepackage{float}
+% Package for urls:
+\usepackage{url}
 
 \bibliographystyle{alpha}
+
+% Now let us define a few shortcuts:
+% Correct sign for C#:
+\newcommand{\CS}{C\nolinebreak\hspace{-.05em}\raisebox{.6ex}{\scriptsize\bf \#\ }}
+
+% --------------------------------------------------------------------------------------------!
+%
+% NOTE: For better usage of LaTeX with GIT, please write each sentence on an own line, separating paragraphs
+%       by the usual double returns. That way GIT can track each sentence on its own instead of always
+%       having to track a paragraph as one block.
+%
+% --------------------------------------------------------------------------------------------!
 
 \begin{document}
 
@@ -22,9 +39,43 @@ Abstract here
 \end{abstract}
 \newpage
 
-\section{Einleitung}
+\section{Introduction}
 
 Todo!
+
+\section{Setup of the Experiment}
+
+This section describes the way the data was recorded to the best of our abilities.
+We'll first look at the hardware and software side of things and then continue on to the actual proceedings that were established to capture the motion data required for the analysis.
+
+\subsection{Equipment}
+
+For our recording we used the "Kinect for Windows"\texttrademark \cite{kinect}, connected to a computer running "Microsoft Windows 7"\textregistered \ via USB.
+The Kinect is mounted on a tripod to allow correct positioning.
+The weights were applied with a weight-vest with a weight of 5 kilograms.
+For the alternate motion, skipping, we also provided a rope.
+We used normal tape to mark positions on the floor so that all recordings were made with the same measurements.
+
+\subsection{Software}
+
+We developed our own application for recording the input stream from the Kinect in \CS with "Microsoft Visual Studio 2012" utilizing the "Microsoft Kinect Developer Version".
+The program is currently available as open source here \cite{csprogram}\footnote{TODO: Add picture of program here!}.
+Later steps that were based on the recorded data were programmed in MATLAB, available here \cite{matlabprograms}.
+
+\subsection{Workflow}
+
+As the overall workflow of the data from its capture to final results is non-trivial, we have provided a flowchart of the procedure to help understand what code does what when and which data files represent what intermediate results\footnote{TODO: Add flowchart here!}.
+
+\subsection{Composition of the Recording}
+
+Figure \ref{fig:schematic} shows the schematics of the arrangement of the Kinect for the recordings\footnote{TODO: Change figure to have english text!}. The way the Kinect records skeletons proved to be a strong limiting factor in selecting which motions to record as the depth-perception is comparatively poor. The fixed nature of the experiment also limited the motion to one that could be done within a small area, which disclosed for example any form of walking or running.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=10cm]{Aufbau.png}
+	\caption{Schematics of the arrangement for the recording of our source data.}
+	\label{fig:schematic}
+\end{figure}
 
 \newpage
 \bibliography{doc}
