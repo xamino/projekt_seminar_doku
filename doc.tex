@@ -89,7 +89,17 @@ The fixed nature of the experiment also limited the motion to one that could be 
 	\label{fig:schematic}
 \end{figure}
 
-\subsection{Conclusion}
+\section{Visualisation}
+
+This section is independent from the rest of the paper as the analytical methods don't matter. Out intent is to show the captured points of the skeleton in an representative 3D Model.
+
+\subsection{Absolute vs. Relative Values}
+As seen in the description of storing points in a ".txt" file the kinect uses Absolute Values to represent the skeleton  - which is absolutely useful, because otherwise it couldn't detect different lengths in body parts. Instead it would had to map the measured values on a defined body model. This procedure would cause inaccuracy.\
+While animating a defined model in the opposite you can't just easily scale single body parts to adjust the proportions. This problem needs as a solution a format invariant to scaling.
+
+\subsection{The .bvh file}
+
+\section{Conclusion}
 
 TODO: Put conclusion here.
 
