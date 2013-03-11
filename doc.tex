@@ -8,6 +8,9 @@
 % Packages for pictures:
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{listings}
+\lstset{numbers=left, numberstyle=\tiny, numbersep=5pt}
+\lstset{language=Perl}
 % Package for urls:
 \usepackage{url}
 
@@ -98,6 +101,19 @@ As seen in the description of storing points in a ".txt" file the kinect uses Ab
 While animating a defined model in the opposite you can't just easily scale single body parts to adjust the proportions. This problem needs as a solution a format invariant to scaling.
 
 \subsection{The .bvh file}
+\begin{lstlisting}[caption=.bvh Connected Structure]{Name}
+JOINT lCollar
+{
+		OFFSET	1.858774 10.237258 -1.915852
+		CHANNELS 3 Zrotation Yrotation Xrotation
+		JOINT lShldr
+		{
+			OFFSET	6.103279 0.000102 -0.038601
+			CHANNELS 3 Zrotation Yrotation Xrotation
+			JOINT lForeArm
+\end{lstlisting}
+
+\end{document}
 
 \section{Conclusion}
 
