@@ -15,7 +15,7 @@
 % Package for urls:
 \usepackage{url}
 
-\bibliographystyle{alpha}
+%\bibliographystyle{alpha}
 
 % Now let us define a few shortcuts:
 % Correct sign for C#:
@@ -49,12 +49,31 @@ This paper represents a rework of \cite{origin}.
 We analyzed what the authors did and tried the method on a somewhat different study.
 Here we show the documentation to our work, our conclusions, and how our work compares to the original work.
 
-\section{Setup of the Experiment}
+\section{Overview of Decomposing Biological Motion}
+
+This section will briefly highlight interesting and important aspects from the original paper on which our work was based on.
+The general goal of the paper was to implement a system on the computer capable of interpreting biological motion.
+This was done by recording the walking motion of men and women with a motion capturing system on a treadmill and then putting the data through an algorithm to distinguish between the gender based on the biological motion.
+
+As the recorded data was not insignificant in its size, a principle component analysis was used to decrease the data volume.
+The original authors found that the first four principal components offered sufficient coverage of the data with a value of 98\%.\footnote{TODO: Sollen wir hier auch noch die Grafik einfügen? Eigentlich unnötig...}
+Just the standard poses and their principal components however do not represent movement: they must be animated over time.
+This was done by mapping the values to a sinus function modified by its parameters.\footnote{TODO: Evtl. die Parameter aufzählen? Brauchen wir das?}
+The data could then be represented in a single, 229 dimensional vector consisting of the three components: the standard poses, the principal components, and the parameters for the sinus function.
+
+The data from all the walkers was then analyzed by a simple linear comparison algorithm.
+The computer managed to correctly classify 90\% correctly in the best case (dependent on the various different approaches).
+This was better than the control group's average.
+
+Finally, the authors used the algorithm backwards to synthesize stylized walkers.
+These can be changed interactively, allowing a quick comparison between the two distinct extremes between the genders and any step between.
+
+\section{REWORK: Setup of the Experiment}
 
 This section describes the way the data was recorded to the best of our abilities.
 We'll first look at the hardware and software side of things and then continue on to the actual proceedings that were established to capture the motion data required for the analysis.
 
-\subsection{Equipment}
+\subsection{REWORK: Equipment}
 
 For our recording we used the "Kinect for Windows"\texttrademark \cite{kinect}, connected to a computer running "Microsoft Windows 7"\textregistered \ via USB.
 The Kinect is mounted on a tripod to allow correct positioning.
@@ -62,7 +81,7 @@ The weights were applied with a weight-vest with a weight of 5 kilograms.
 For the alternate motion, skipping, we also provided a rope.
 We used normal tape to mark positions on the floor so that all recordings were made with the same measurements.
 
-\subsection{Software}
+\subsection{REWORK: Software}
 
 We developed our own application for recording the input stream from the Kinect in \CS with "Microsoft Visual Studio 2012" utilizing the "Microsoft Kinect Developer Version".
 The program is currently available as open source here \cite{csprogram} and can be seen in Fig ~\ref{fig:programm}.
@@ -76,11 +95,11 @@ The program is currently available as open source here \cite{csprogram} and can 
 
 Later steps that were based on the recorded data were programmed in MATLAB, available here \cite{matlabprograms}.
 
-\subsection{Workflow}
+\subsection{REWORK: Workflow}
 
 As the overall workflow of the data from its capture to final results is non-trivial, we have provided a flowchart of the procedure to help understand what code does what when and which data files represent what intermediate results\footnote{TODO: Add flowchart here!}.
 
-\subsection{Composition of the Recording}
+\subsection{REWORK: Composition of the Recording}
 
 Figure \ref{fig:schematic} shows the schematics of the arrangement of the Kinect for the recordings\footnote{TODO: Change figure to have english text!}.
 The way the Kinect records skeletons proved to be a strong limiting factor in selecting which motions to record as the depth-perception is comparatively poor.
@@ -155,6 +174,6 @@ wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
 TODO: Put conclusion here.
 
 \newpage
-\bibliography{doc}
+\bibliography{doc.bib}
 
 \end{document}
