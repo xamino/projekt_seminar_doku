@@ -112,6 +112,12 @@ The fixed nature of the experiment also limited the motion to one that could be 
 	\label{fig:schematic}
 \end{figure}
 
+\section{Creating Motionvectors to Represent Motion Data}
+
+Having saved all of the skeleton data received from the Kinect into textfields the representation of the jumping motion of every subject is a huge matrix. Every row of this matrix represents one single frame captured by the Kinect, which consists of 48 values: Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint.
+
+This data is highly redundant. Jumping jack and jump rope are symmetrical motions. For example, the right arm moves the same way as the left arm does except for reflection. The same goes for the legs.
+
 \section{Visualisation}
 
 This section is independent from the rest of the paper as the analytical methods don't matter. Out intent is to show the captured points of the skeleton in an representative 3D Model.
@@ -166,8 +172,6 @@ laengeeins=sqrt(Vektor24y^2 + Vektor24x^2);
 laengezwei=sqrt(Vektor46y^2 + Vektor46x^2); 
 wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
 \end{lstlisting}
-
-\end{document}
 
 \section{Conclusion}
 
