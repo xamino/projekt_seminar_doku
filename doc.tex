@@ -5,6 +5,7 @@
 % Take care of input things:
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 % Packages for pictures:
 \usepackage{graphicx}
 \usepackage{float}
@@ -14,8 +15,9 @@
 \lstset{language=Perl}
 % Package for urls:
 \usepackage{url}
+\usepackage{hyperref}
 
-%\bibliographystyle{alpha}
+\bibliographystyle{alpha}
 
 % Now let us define a few shortcuts:
 % Correct sign for C#:
@@ -167,13 +169,12 @@ laengezwei=sqrt(Vektor46y^2 + Vektor46x^2);
 wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
 \end{lstlisting}
 
-\end{document}
 
 \section{Conclusion}
 
 TODO: Put conclusion here.
 
 \newpage
-\bibliography{doc.bib}
+\bibliography{doc}
 
 \end{document}
