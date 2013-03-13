@@ -5,6 +5,7 @@
 % Take care of input things:
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 % Packages for pictures:
 \usepackage{graphicx}
 \usepackage{float}
@@ -14,8 +15,9 @@
 \lstset{language=Perl}
 % Package for urls:
 \usepackage{url}
+\usepackage{hyperref}
 
-%\bibliographystyle{alpha}
+\bibliographystyle{alpha}
 
 % Now let us define a few shortcuts:
 % Correct sign for C#:
@@ -31,15 +33,14 @@
 
 \begin{document}
 
-\title{Documentation}
+\title{Weight Effects on Jumping Motion}
 \author{Andreas Köll, Johannes Bohner, Burkhard Hoppenstedt, Tamino Hartmann}
 \date{\today}
 
 \maketitle
 
 \begin{abstract}
-
-Abstract here
+Abstract here. TODO!
 \end{abstract}
 \newpage
 
@@ -68,12 +69,20 @@ This was better than the control group's average.
 Finally, the authors used the algorithm backwards to synthesize stylized walkers.
 These can be changed interactively, allowing a quick comparison between the two distinct extremes between the genders and any step between.
 
-\section{REWORK: Setup of the Experiment}
+\section{Our Work}
 
-This section describes the way the data was recorded to the best of our abilities.
-We'll first look at the hardware and software side of things and then continue on to the actual proceedings that were established to capture the motion data required for the analysis.
+Now we'll take a look at the work we did.
+Our intend was to recreate the original work from ground up with slightly changed parameters.
+This meant that we had to do a few things differently, most notably the hardware used to record the motion data.
 
-\subsection{REWORK: Equipment}
+The hardware used restricted us to a more simple motion to capture – basically, it had to be 2D and without any 3D overlaps.
+To allow for a higher yield of subjects, we refrained from trying to differentiate gender and instead choose to differentiate between doing the motion with and without weights.
+Various experiments with the coverage of the used sensor narrowed the motion we would be using down to 2: jumping jack and rope skipping.
+
+All software used was written by us, based on the algorithms outlined in the original paper.
+Basically we created 2 software pieces: one for recording the motion from the sensor and one for working with the data (although that is more a workflow with many scripts than a complete software).
+
+\subsection{Equipment}
 
 For our recording we used the "Kinect for Windows"\texttrademark \cite{kinect}, connected to a computer running "Microsoft Windows 7"\textregistered \ via USB.
 The Kinect is mounted on a tripod to allow correct positioning.
@@ -81,27 +90,38 @@ The weights were applied with a weight-vest with a weight of 5 kilograms.
 For the alternate motion, skipping, we also provided a rope.
 We used normal tape to mark positions on the floor so that all recordings were made with the same measurements.
 
-\subsection{REWORK: Software}
+\subsection{Recording the Data}
 
-We developed our own application for recording the input stream from the Kinect in \CS with "Microsoft Visual Studio 2012" utilizing the "Microsoft Kinect Developer Version".
-The program is currently available as open source here \cite{csprogram} and can be seen in Fig ~\ref{fig:programm}.
+The first software allows us to record the skeleton input stream from the Kinect and save it to text files.
+We developed the application for recording the input stream from the Kinect in \CS with "Microsoft Visual Studio 2012" utilizing the "Microsoft Kinect Developer Version".
+The program is currently available as open source here \cite{csprogram} and can be seen in Fig \ref{fig:programm}.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\includegraphics[width=8cm]{programm.jpg}
 	\caption{Screenshot of the program used to record the data.}
 	\label{fig:programm}
 \end{figure}
 
-Later steps that were based on the recorded data were programmed in MATLAB, available here \cite{matlabprograms}.
+\subsection{Processing the Data}
 
-\subsection{REWORK: Workflow}
+The other software piece consisted of a multitude of MATLAB\cite{matlabprograms} scripts that were run in sequence on the files to generate our outputs. Ideally, this should be packaged into a single program too, but we considered the gain to be too small compared to the amount of work required for our project.
+Our proposal for this is a node based program where one can manipulate the flow of the data through various external MATLAB scripts; the nodes would be the scripts and the connecting vectors the data moving between them\footnote{An example for the functionality can be found here: \url{http://www.blender.org/development/release-logs/blender-242/blender-composite-nodes/}}.
+Such a program could be a future work with a wide array of alternate uses beyond this project.
 
-As the overall workflow of the data from its capture to final results is non-trivial, we have provided a flowchart of the procedure to help understand what code does what when and which data files represent what intermediate results\footnote{TODO: Add flowchart here!}.
+As the overall workflow of the data from its capture to final results is non-trivial, we have provided a flowchart of the procedure in Fig \ref{fig:workflow}.
+The chart should clear up the flow of data in our project from the recording to the various intermediate steps to our final results.
 
-\subsection{REWORK: Composition of the Recording}
+\begin{figure}
+	\centering
+	\includegraphics[width=14cm]{matlabaufbau.png}
+	\caption{Overview of the workflow of the data.}
+	\label{fig:workflow}
+\end{figure}
 
-Figure \ref{fig:schematic} shows the schematics of the arrangement of the Kinect for the recordings\footnote{TODO: Change figure to have english text!}.
+\subsection{Composition of the Recording}
+
+Figure \ref{fig:schematic} shows the schematics of the arrangement of the Kinect for the recordings.
 The way the Kinect records skeletons proved to be a strong limiting factor in selecting which motions to record as the depth-perception is comparatively poor.
 The fixed nature of the experiment also limited the motion to one that could be done within a small area, which disclosed for example any form of walking or running.
 
@@ -112,9 +132,120 @@ The fixed nature of the experiment also limited the motion to one that could be 
 	\label{fig:schematic}
 \end{figure}
 
+\subsection{Recording Subjects}
+
+Once everything was in place and we were relatively comfortable with our software and the process of recording, we asked random acquaintances to be subjects in our project.
+Each subject had to do either or both of the motions with and without the weights on them.
+We thus recorded 19 data sets of the jumping jack and 16 data sets of the rope skipping.
+Each data set consists of one recording with the weight and one without.
+The order in which the subjects either started or finished with the weight was equally divided among the group to minimize effects of fatigue.
+
+As the Kinect senses the 3D spatial information via infrared, we initially had trouble when test subjects wore dark clothing.
+This was due to the dark clothing absorbing the infrared, thus becoming invisible to the Kinect.
+To solve this problem, we had all subjects that wore dark clothing wear a blue overall over their clothes to assure a steady recording.
+
+For the actual recording, we first explained the procedure to our subjects.
+This was done so that the motions would be the same between all subjects.
+We then had the subjects start with the motion and then pressed record.
+For the recording of jumping jacks, our software automatically recognized the start position and counted 10 cycles of jumping jacks.
+These 10 cycles were then saved in a text file consisting of the 3D vectors of the 16 skeleton points over the frames in time.
+% The recording of the skipping rope proved to be more difficult, so we eyeballed 10 successful cycles for our recordings.
+
+An example of the recording can be seen here: \url{http://youtu.be/CJLkOyAGtjk}. The Kinect stands to the right of the camera, at the same relative distance.
+
+\section{Creating Motionvectors to Represent Motion Data}
+
+Having saved all of the skeleton data received from the Kinect into textfields the representation of the jumping motion of every subject is a huge matrix. Each row of this matrix represents one single posture of the subject's body, which consists of 48 values:
+Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint.
+The postures can also be seen as points in the 48 dimensional space.
+
+This data is highly redundant.
+For example, jumping jack and jump rope are symmetrical motions.
+The right arm moves the same way as the left arm does except for reflection.
+The same goes for the legs.
+
+Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the data's information using principal component analysis (PCA).
+Basically, what PCA does is to rotate and move the 48 dimensional cartesian coordinate system, in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion.
+The vectors that represent the axes of the in this way transformed coordinate system are called the principal components.
+The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$.
+The principal components are the eigenvectors of the covariance matrix of the skeleton data set.
+Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
+
+% \begin{Andi}
+\subsection{Sinusoidal--Approximation of Coefficients}
+A graphical representation of an \emph{eigenposture} for a jumping jack motion can be seen on top of figure \ref{fig:approx}.
+Here the blue curve represents the first coefficient of the \emph{eigenposture} and the green curve the second coefficient.
+Apparently this graph looks similar to a sinusoidal graph.
+The reason for this characteristic is that our jumping motions are cyclic motions.
+Therefore the coefficients of our \emph{eigenpostures} can be approximated using sinusoidal functions.
+This is done similar to the approach of \cite{origin}.
+Hereby a sine function is used to describe each of the coefficients of the \emph{eigenposture}.
+The approximation is done using MATLABs integrated \emph{fit} function.
+The fitted graph of the example mentioned above can be seen at the bottom of figure \ref{fig:approx}.
+
+\begin{figure}[htb]
+		\centering
+		%\includegraphics[width=\textwidth]{blubblubblub.png}
+		\caption{Original dataset (top) and sinusoidal approximation (bottom).}
+		\label{fig:approx}
+\end{figure}
+
+MATLABs \emph{fit} function also outputs the goodness of the fit in form of the square of the correlation ()\emph{rsquare}).
+Here values close the zero mean a bad fit and values close to one a good fit.
+A value of one would be an exact fit with no information lost.
+The goodness of the fit shown in figure \ref{fig:approx} is 0.90225 for the first and 0.80946 for the second coefficient.
+This is a rather good result when considered, that we use a motion of ten full cycles as input and every difference in each of the cycles impairs the approximation. 
+Also the approximation goodness of this example is close the the average goodness of all our jumping jack \emph{eigenpostures}.
+This also counts for the following examples.
+
+Also when looking back at our jumping jack example in figure \ref{fig:approx} we can see that especially the first coefficient is rather badly approximated on the top of the wave.
+We tried therefore an additional approach to get even better results. That is to use two overlapping sine functions for a better representation of each coefficient.
+The result of this approach can be seen in figure \ref{fig:approx2}.
+Here the \emph{rsquare} values are 0.98515 for the first and 0.9366 for the second coefficient and thus represents a better model of our jumping jack motion.
+
+\begin{figure}[htb]
+		\centering
+		%\includegraphics[width=\textwidth]{blubblubblub.png}
+		\caption{Original dataset (top) and sinusoidal approximation using two overlapping sine functions (bottom).}
+		\label{fig:approx2}
+\end{figure}
+
+The skipping motion, as seen in figure \ref{fig:approx3}, however does not have this characteristic so here only one sine function was used for our further work.
+The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
+
+\begin{figure}[htb]
+		\centering
+		%\includegraphics[width=\textwidth]{blubblubblub.png}
+		\caption{Original dataset of a skipping motion (top) and its sinusoidal approximation (bottom).}
+		\label{fig:approx3}
+\end{figure}
+
+
+\subsection{Comparison of original and after-processing-motions}
+
+% TODO Animationen vergleichen / in pdf einbinden?
+
+\subsection{Creation of Motion Vectors}
+
+% TODO Aufbau der Bewegunsvectoren
+
+% TODO Testpersonen, wohin?
+
+
+% \end{Andi}
+\section{Classification}
+
+For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector.
+Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion.
+Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions.
+
+The result of this second PCA is another set of eigenvectors, which we are going to refer to as the eigenjumpers comparable with the eigenwalkers of \cite{origin}, and for each jumping motion a set of coefficients.
+
+\section{Synthesizing of Jumping Motions}
+
 \section{Visualisation}
 
-This section is independent from the rest of the paper as the analytical methods don't matter. Out intent is to show the captured points of the skeleton in an representative 3D Model.
+This section is independent from the rest of the paper as the analytical methods don't matter. Our intent is to show the captured points of the skeleton in an representative 3D Model.
 
 \subsection{Absolute vs. Relative Values}
 As seen in the description of storing points in a ".txt" file the kinect uses Absolute Values to represent the skeleton  - which is absolutely useful, because otherwise it couldn't detect different lengths in body parts. Instead it would had to map the measured values on a defined body model. This procedure would cause inaccuracy.\
@@ -167,13 +298,12 @@ laengezwei=sqrt(Vektor46y^2 + Vektor46x^2);
 wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
 \end{lstlisting}
 
-\end{document}
 
 \section{Conclusion}
 
 TODO: Put conclusion here.
 
 \newpage
-\bibliography{doc.bib}
+\bibliography{doc}
 
 \end{document}
