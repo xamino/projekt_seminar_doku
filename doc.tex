@@ -33,7 +33,7 @@
 
 \begin{document}
 
-\title{Weight Effects on Biological Motion}
+\title{Weight Effects on Jumping Motion}
 \author{Andreas Köll, Johannes Bohner, Burkhard Hoppenstedt, Tamino Hartmann}
 \date{\today}
 
@@ -122,9 +122,17 @@ This data is highly redundant. For example, jumping jack and jump rope are symme
 
 Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the data's information using principal component analysis (PCA). Basically, what PCA does is to rotate and move the 48 dimensional cartesian coordinate system, in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion. The vectors that represent the axes of the in this way transformed coordinate system are called the principal components. The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$. The principal components are the eigenvectors of the covariance matrix of the skeleton data set. Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
 
+\section{Classification}
+
+For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector. Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion. Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions.
+
+The result of this second PCA is another set of eigenvectors, which we are going to refer to as the eigenjumpers comparable with the eigenwalkers of \cite{origin}, and for each jumping motion a set of coefficients.
+
+\section{Synthesizing of Jumping Motions}
+
 \section{Visualisation}
 
-This section is independent from the rest of the paper as the analytical methods don't matter. Out intent is to show the captured points of the skeleton in an representative 3D Model.
+This section is independent from the rest of the paper as the analytical methods don't matter. Our intent is to show the captured points of the skeleton in an representative 3D Model.
 
 \subsection{Absolute vs. Relative Values}
 As seen in the description of storing points in a ".txt" file the kinect uses Absolute Values to represent the skeleton  - which is absolutely useful, because otherwise it couldn't detect different lengths in body parts. Instead it would had to map the measured values on a defined body model. This procedure would cause inaccuracy.\
