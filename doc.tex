@@ -133,6 +133,27 @@ The fixed nature of the experiment also limited the motion to one that could be 
 	\label{fig:schematic}
 \end{figure}
 
+\subsection{Recording Subjects}
+
+Once everything was in place and we were relatively comfortable with our software and the process of recording, we asked random acquaintances to be subjects in our project.
+Each subject had to do either or both of the motions with and without the weights on them.
+We thus recorded 19 data sets of the jumping jack and 16 data sets of the rope skipping.
+Each data set consists of one recording with the weight and one without.
+The order in which the subjects either started or finished with the weight was equally divided among the group to minimize effects of fatigue.
+
+As the Kinect senses the 3D spatial information via infrared, we initially had trouble when test subjects wore dark clothing.
+This was due to the dark clothing absorbing the infrared, thus becoming invisible to the Kinect.
+To solve this problem, we had all subjects that wore dark clothing wear a blue overall over their clothes to assure a steady recording.
+
+For the actual recording, we first explained the procedure to our subjects.
+This was done so that the motions would be the same between all subjects.
+We then had the subjects start with the motion and then pressed record.
+For the recording of jumping jacks, our software automatically recognized the start position and counted 15 cycles of jumping jacks.
+These 15 cycles where then saved in a text file consisting of the 3D vectors of the 15 skeleton points over the frames in time.
+The recording of the skipping rope proved to be more difficult, so we eyeballed 10 successful cycles for our recordings.
+
+An example of the recording can be seen here: \url{http://youtu.be/CJLkOyAGtjk}. The Kinect stands to the right of the camera, at the same relative distance.
+
 \section{Creating Motionvectors to Represent Motion Data}
 
 Having saved all of the skeleton data received from the Kinect into textfields the representation of the jumping motion of every subject is a huge matrix. Each row of this matrix represents one single posture of the subject's body, which consists of 48 values: Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint. The postures can also be seen as points in the 48 dimensional space.
