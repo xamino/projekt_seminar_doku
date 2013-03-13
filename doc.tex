@@ -33,7 +33,7 @@
 
 \begin{document}
 
-\title{Documentation}
+\title{Weight Effects on Biological Motion}
 \author{Andreas Köll, Johannes Bohner, Burkhard Hoppenstedt, Tamino Hartmann}
 \date{\today}
 
@@ -116,9 +116,11 @@ The fixed nature of the experiment also limited the motion to one that could be 
 
 \section{Creating Motionvectors to Represent Motion Data}
 
-Having saved all of the skeleton data received from the Kinect into textfields the representation of the jumping motion of every subject is a huge matrix. Each row of this matrix represents one single posture of the subject's body, which consists of 48 values: Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint.
+Having saved all of the skeleton data received from the Kinect into textfields the representation of the jumping motion of every subject is a huge matrix. Each row of this matrix represents one single posture of the subject's body, which consists of 48 values: Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint. The postures can also be seen as points in the 48 dimensional space.
 
 This data is highly redundant. For example, jumping jack and jump rope are symmetrical motions. The right arm moves the same way as the left arm does except for reflection. The same goes for the legs.
+
+Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the data's information using principal component analysis (PCA). Basically, what PCA does is to rotate and move the 48 dimensional cartesian coordinate system, in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion. The vectors that represent the axes of the in this way transformed coordinate system are called the principal components. The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$. The principal components are the eigenvectors of the covariance matrix of the skeleton data set. Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
 
 \section{Visualisation}
 
