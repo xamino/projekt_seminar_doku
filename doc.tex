@@ -40,8 +40,7 @@
 \maketitle
 
 \begin{abstract}
-
-Abstract here
+Abstract here. TODO!
 \end{abstract}
 \newpage
 
@@ -70,12 +69,20 @@ This was better than the control group's average.
 Finally, the authors used the algorithm backwards to synthesize stylized walkers.
 These can be changed interactively, allowing a quick comparison between the two distinct extremes between the genders and any step between.
 
-\section{REWORK: Setup of the Experiment}
+\section{Our Work}
 
-This section describes the way the data was recorded to the best of our abilities.
-We'll first look at the hardware and software side of things and then continue on to the actual proceedings that were established to capture the motion data required for the analysis.
+Now we'll take a look at the work we did.
+Our intend was to recreate the original work from ground up with slightly changed parameters.
+This meant that we had to do a few things differently, most notably the hardware used to record the motion data.
 
-\subsection{REWORK: Equipment}
+The hardware used restricted us to a more simple motion to capture – basically, it had to be 2D and without any 3D overlaps.
+To allow for a higher yield of subjects, we refrained from trying to differentiate gender and instead choose to differentiate between doing the motion with and without weights.
+Various experiments with the coverage of the used sensor narrowed the motion we would be using down to 2: jumping jack and rope skipping.
+
+All software used was written by us, based on the algorithms outlined in the original paper.
+Basically we created 2 software pieces: one for recording the motion from the sensor and one for working with the data (although that is more a workflow with many scripts than a complete software).
+
+\subsection{Equipment}
 
 For our recording we used the "Kinect for Windows"\texttrademark \cite{kinect}, connected to a computer running "Microsoft Windows 7"\textregistered \ via USB.
 The Kinect is mounted on a tripod to allow correct positioning.
@@ -83,27 +90,38 @@ The weights were applied with a weight-vest with a weight of 5 kilograms.
 For the alternate motion, skipping, we also provided a rope.
 We used normal tape to mark positions on the floor so that all recordings were made with the same measurements.
 
-\subsection{REWORK: Software}
+\subsection{Recording the Data}
 
-We developed our own application for recording the input stream from the Kinect in \CS with "Microsoft Visual Studio 2012" utilizing the "Microsoft Kinect Developer Version".
-The program is currently available as open source here \cite{csprogram} and can be seen in Fig ~\ref{fig:programm}.
+The first software allows us to record the skeleton input stream from the Kinect and save it to text files.
+We developed the application for recording the input stream from the Kinect in \CS with "Microsoft Visual Studio 2012" utilizing the "Microsoft Kinect Developer Version".
+The program is currently available as open source here \cite{csprogram} and can be seen in Fig \ref{fig:programm}.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\includegraphics[width=8cm]{programm.jpg}
 	\caption{Screenshot of the program used to record the data.}
 	\label{fig:programm}
 \end{figure}
 
-Later steps that were based on the recorded data were programmed in MATLAB, available here \cite{matlabprograms}.
+\subsection{Processing the Data}
 
-\subsection{REWORK: Workflow}
+The other software piece consisted of a multitude of MATLAB\cite{matlabprograms} scripts that were run in sequence on the files to generate our outputs. Ideally, this should be packaged into a single program too, but we considered the gain to be too small compared to the amount of work required for our project.
+Our proposal for this is a node based program where one can manipulate the flow of the data through various external MATLAB scripts; the nodes would be the scripts and the connecting vectors the data moving between them\footnote{An example for the functionality can be found here: \url{http://www.blender.org/development/release-logs/blender-242/blender-composite-nodes/}}.
+Such a program could be a future work with a wide array of alternate uses beyond this project.
 
-As the overall workflow of the data from its capture to final results is non-trivial, we have provided a flowchart of the procedure to help understand what code does what when and which data files represent what intermediate results\footnote{TODO: Add flowchart here!}.
+As the overall workflow of the data from its capture to final results is non-trivial, we have provided a flowchart of the procedure in Fig \ref{fig:workflow}.
+The chart should clear up the flow of data in our project from the recording to the various intermediate steps to our final results.
 
-\subsection{REWORK: Composition of the Recording}
+\begin{figure}
+	\centering
+	\includegraphics[width=14cm]{matlabaufbau.png}
+	\caption{Overview of the workflow of the data.}
+	\label{fig:workflow}
+\end{figure}
 
-Figure \ref{fig:schematic} shows the schematics of the arrangement of the Kinect for the recordings\footnote{TODO: Change figure to have english text!}.
+\subsection{Composition of the Recording}
+
+Figure \ref{fig:schematic} shows the schematics of the arrangement of the Kinect for the recordings.
 The way the Kinect records skeletons proved to be a strong limiting factor in selecting which motions to record as the depth-perception is comparatively poor.
 The fixed nature of the experiment also limited the motion to one that could be done within a small area, which disclosed for example any form of walking or running.
 
@@ -113,6 +131,27 @@ The fixed nature of the experiment also limited the motion to one that could be 
 	\caption{Schematics of the arrangement for the recording of our source data.}
 	\label{fig:schematic}
 \end{figure}
+
+\subsection{Recording Subjects}
+
+Once everything was in place and we were relatively comfortable with our software and the process of recording, we asked random acquaintances to be subjects in our project.
+Each subject had to do either or both of the motions with and without the weights on them.
+We thus recorded 19 data sets of the jumping jack and 16 data sets of the rope skipping.
+Each data set consists of one recording with the weight and one without.
+The order in which the subjects either started or finished with the weight was equally divided among the group to minimize effects of fatigue.
+
+As the Kinect senses the 3D spatial information via infrared, we initially had trouble when test subjects wore dark clothing.
+This was due to the dark clothing absorbing the infrared, thus becoming invisible to the Kinect.
+To solve this problem, we had all subjects that wore dark clothing wear a blue overall over their clothes to assure a steady recording.
+
+For the actual recording, we first explained the procedure to our subjects.
+This was done so that the motions would be the same between all subjects.
+We then had the subjects start with the motion and then pressed record.
+For the recording of jumping jacks, our software automatically recognized the start position and counted 15 cycles of jumping jacks.
+These 15 cycles where then saved in a text file consisting of the 3D vectors of the 15 skeleton points over the frames in time.
+The recording of the skipping rope proved to be more difficult, so we eyeballed 10 successful cycles for our recordings.
+
+An example of the recording can be seen here: \url{http://youtu.be/CJLkOyAGtjk}. The Kinect stands to the right of the camera, at the same relative distance.
 
 \section{Creating Motionvectors to Represent Motion Data}
 
