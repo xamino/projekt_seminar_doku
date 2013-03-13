@@ -155,15 +155,25 @@ An example of the recording can be seen here: \url{http://youtu.be/CJLkOyAGtjk}.
 
 \section{Creating Motionvectors to Represent Motion Data}
 
-Having saved all of the skeleton data received from the Kinect into textfields the representation of the jumping motion of every subject is a huge matrix. Each row of this matrix represents one single posture of the subject's body, which consists of 48 values: Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint. The postures can also be seen as points in the 48 dimensional space.
+Having saved all of the skeleton data received from the Kinect into textfields the representation of the jumping motion of every subject is a huge matrix. Each row of this matrix represents one single posture of the subject's body, which consists of 48 values:
+Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint.
+The postures can also be seen as points in the 48 dimensional space.
 
-This data is highly redundant. For example, jumping jack and jump rope are symmetrical motions. The right arm moves the same way as the left arm does except for reflection. The same goes for the legs.
+This data is highly redundant.
+For example, jumping jack and jump rope are symmetrical motions.
+The right arm moves the same way as the left arm does except for reflection.
+The same goes for the legs.
 
-Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the data's information using principal component analysis (PCA). Basically, what PCA does is to rotate and move the 48 dimensional cartesian coordinate system, in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion. The vectors that represent the axes of the in this way transformed coordinate system are called the principal components. The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$. The principal components are the eigenvectors of the covariance matrix of the skeleton data set. Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
+Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the data's information using principal component analysis (PCA).
+Basically, what PCA does is to rotate and move the 48 dimensional cartesian coordinate system, in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion.
+The vectors that represent the axes of the in this way transformed coordinate system are called the principal components.
+The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$.
+The principal components are the eigenvectors of the covariance matrix of the skeleton data set.
+Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
 
 % \begin{Andi}
 \subsection{Sinusoidal--Approximation of Coefficients}
-A graphical representation of an \emph{eigenposture} can be seen on top of figure \figurename{fig:approx}.
+A graphical representation of an \emph{eigenposture} for a jumping jack motion can be seen on top of figure \ref{fig:approx}.
 Here the blue curve represents the first coefficient of the \emph{eigenposture} and the green curve the second coefficient.
 Apparently this graph looks similar to a sinusoidal graph.
 The reason for this characteristic is that our jumping motions are cyclic motions.
@@ -171,7 +181,7 @@ Therefore the coefficients of our \emph{eigenpostures} can be approximated using
 This is done similar to the approach of \cite{origin}.
 Hereby a sine function is used to describe each of the coefficients of the \emph{eigenposture}.
 The approximation is done using MATLABs integrated \emph{fit} function.
-The fitted graph of the example mentioned above can be seen at the bottom of figure \figurename{fig:approx}.
+The fitted graph of the example mentioned above can be seen at the bottom of figure \ref{fig:approx}.
 
 \begin{figure}[htb]
 		\centering
@@ -180,11 +190,54 @@ The fitted graph of the example mentioned above can be seen at the bottom of fig
 		\label{fig:approx}
 \end{figure}
 
+MATLABs \emph{fit} function also outputs the goodness of the fit in form of the square of the correlation ()\emph{rsquare}).
+Here values close the zero mean a bad fit and values close to one a good fit.
+A value of one would be an exact fit with no information lost.
+The goodness of the fit shown in figure \ref{fig:approx} is 0.90225 for the first and 0.80946 for the second coefficient.
+This is a rather good result when considered, that we use a motion of ten full cycles as input and every difference in each of the cycles impairs the approximation. 
+Also the approximation goodness of this example is close the the average goodness of all our jumping jack \emph{eigenpostures}.
+This also counts for the following examples.
+
+Also when looking back at our jumping jack example in figure \ref{fig:approx} we can see that especially the first coefficient is rather badly approximated on the top of the wave.
+We tried therefore an additional approach to get even better results. That is to use two overlapping sine functions for a better representation of each coefficient.
+The result of this approach can be seen in figure \ref{fig:approx2}.
+Here the \emph{rsquare} values are 0.98515 for the first and 0.9366 for the second coefficient and thus represents a better model of our jumping jack motion.
+
+\begin{figure}[htb]
+		\centering
+		%\includegraphics[width=\textwidth]{blubblubblub.png}
+		\caption{Original dataset (top) and sinusoidal approximation using two overlapping sine functions (bottom).}
+		\label{fig:approx2}
+\end{figure}
+
+The skipping motion, as seen in figure \ref{fig:approx3}, however does not have this characteristic so here only one sine function was used for our further work.
+The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
+
+\begin{figure}[htb]
+		\centering
+		%\includegraphics[width=\textwidth]{blubblubblub.png}
+		\caption{Original dataset of a skipping motion (top) and its sinusoidal approximation (bottom).}
+		\label{fig:approx3}
+\end{figure}
+
+
+\subsection{Comparison of original and after-processing-motions}
+
+% TODO Animationen vergleichen / in pdf einbinden?
+
+\subsection{Creation of Motion Vectors}
+
+% TODO Aufbau der Bewegunsvectoren
+
+% TODO Testpersonen, wohin?
+
 
 % \end{Andi}
 \section{Classification}
 
-For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector. Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion. Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions.
+For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector.
+Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion.
+Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions.
 
 The result of this second PCA is another set of eigenvectors, which we are going to refer to as the eigenjumpers comparable with the eigenwalkers of \cite{origin}, and for each jumping motion a set of coefficients.
 
