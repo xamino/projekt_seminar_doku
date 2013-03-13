@@ -147,9 +147,9 @@ To solve this problem, we had all subjects that wore dark clothing wear a blue o
 For the actual recording, we first explained the procedure to our subjects.
 This was done so that the motions would be the same between all subjects.
 We then had the subjects start with the motion and then pressed record.
-For the recording of jumping jacks, our software automatically recognized the start position and counted 15 cycles of jumping jacks.
-These 15 cycles where then saved in a text file consisting of the 3D vectors of the 15 skeleton points over the frames in time.
-The recording of the skipping rope proved to be more difficult, so we eyeballed 10 successful cycles for our recordings.
+For the recording of jumping jacks, our software automatically recognized the start position and counted 10 cycles of jumping jacks.
+These 10 cycles were then saved in a text file consisting of the 3D vectors of the 16 skeleton points over the frames in time.
+% The recording of the skipping rope proved to be more difficult, so we eyeballed 10 successful cycles for our recordings.
 
 An example of the recording can be seen here: \url{http://youtu.be/CJLkOyAGtjk}. The Kinect stands to the right of the camera, at the same relative distance.
 
@@ -161,6 +161,27 @@ This data is highly redundant. For example, jumping jack and jump rope are symme
 
 Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the data's information using principal component analysis (PCA). Basically, what PCA does is to rotate and move the 48 dimensional cartesian coordinate system, in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion. The vectors that represent the axes of the in this way transformed coordinate system are called the principal components. The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$. The principal components are the eigenvectors of the covariance matrix of the skeleton data set. Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
 
+% \begin{Andi}
+\subsection{Sinusoidal--Approximation of Coefficients}
+A graphical representation of an \emph{eigenposture} can be seen on top of figure \figurename{fig:approx}.
+Here the blue curve represents the first coefficient of the \emph{eigenposture} and the green curve the second coefficient.
+Apparently this graph looks similar to a sinusoidal graph.
+The reason for this characteristic is that our jumping motions are cyclic motions.
+Therefore the coefficients of our \emph{eigenpostures} can be approximated using sinusoidal functions.
+This is done similar to the approach of \cite{origin}.
+Hereby a sine function is used to describe each of the coefficients of the \emph{eigenposture}.
+The approximation is done using MATLABs integrated \emph{fit} function.
+The fitted graph of the example mentioned above can be seen at the bottom of figure \figurename{fig:approx}.
+
+\begin{figure}[htb]
+		\centering
+		%\includegraphics[width=\textwidth]{blubblubblub.png}
+		\caption{Original dataset (top) and sinusoidal approximation (bottom).}
+		\label{fig:approx}
+\end{figure}
+
+
+% \end{Andi}
 \section{Classification}
 
 For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector. Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion. Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions. However this time the unsimilarity of the data in the motionvectors might affect how good the PCA will work. The first PCA's input were 48-dimensional postures, each of the 48 entries was a distance describing one dimension of the three-dimensional position of a joint. All of the entries in each posture were comparable. The entries in the motionvector however described positions, frequencies, amplitudes and phases, thus the values of one motionvector had various magnitudes. Therefore we created a 141/143/144/146-dimensional standard deviation vector u containing the standard deviations of each motionvector-entry of the complete set of motionvectors. Each entry of each motionvector was then divided by the corresponding entry of u prior to running the PCA. The vector u was saved to a file for later use.
