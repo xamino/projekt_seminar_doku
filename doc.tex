@@ -16,7 +16,7 @@
 % Package for urls:
 \usepackage{url}
 \usepackage{hyperref}
-
+\usepackage{amsmath}
 \bibliographystyle{alpha}
 
 % Now let us define a few shortcuts:
@@ -280,7 +280,12 @@ Frame Time: 1
 
 \subsection{Calculating the angles}
 After finding the corresponding entries in the ".txt" and ".bvh" file now is the time to convert values. Using Matlab as  intermediary between the two formats we take the advantage of easy handling .txt to matrices. 
-
+\newline
+The problem is now solved by the vector based equation:
+\newline
+\begin{math}
+\vec a \cdot \vec b = \left|\vec a \right| \left|\vec b \right| \cos \phi
+\end{math}
 \begin{lstlisting}[caption=Calculating the angle]{Name}
 D = dlmread('nameSeilhuepfen0.txt');
 [...]
@@ -297,6 +302,14 @@ laengeeins=sqrt(Vektor24y^2 + Vektor24x^2);
 laengezwei=sqrt(Vektor46y^2 + Vektor46x^2); 
 wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
 \end{lstlisting}
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=8cm]{3dRender.png}
+	\caption{Result of rendering.}
+	\label{fig:programm}
+\end{figure}
 
 
 \section{Conclusion}
