@@ -57,9 +57,9 @@ The general goal of the paper was to implement a system on the computer capable 
 This was done by recording the walking motion of men and women with a motion capturing system on a treadmill and then putting the data through an algorithm to distinguish between the gender based on the biological motion.
 
 As the recorded data was not insignificant in its size, a principle component analysis was used to decrease the data volume.
-The original authors found that the first four principal components offered sufficient coverage of the data with a value of 98\%.\footnote{TODO: Sollen wir hier auch noch die Grafik einfügen? Eigentlich unnötig...}
+The original authors found that the first four principal components offered sufficient coverage of the data with a value of 98\%.
 Just the standard poses and their principal components however do not represent movement: they must be animated over time.
-This was done by mapping the values to a sinus function modified by its parameters.\footnote{TODO: Evtl. die Parameter aufzählen? Brauchen wir das?}
+This was done by mapping the values to a sinus function modified by its parameters.
 The data could then be represented in a single, 229 dimensional vector consisting of the three components: the standard poses, the principal components, and the parameters for the sinus function.
 
 The data from all the walkers was then analyzed by a simple linear comparison algorithm.
@@ -105,7 +105,8 @@ The program is currently available as open source here \cite{csprogram} and can 
 
 \subsection{Processing the Data}
 
-The other software piece consisted of a multitude of MATLAB\cite{matlabprograms} scripts that were run in sequence on the files to generate our outputs. Ideally, this should be packaged into a single program too, but we considered the gain to be too small compared to the amount of work required for our project.
+The other software piece consisted of a multitude of MATLAB\cite{matlabprograms} scripts that were run in sequence on the files to generate our outputs.
+Ideally, this should be packaged into a single program too, but we considered the gain to be too small compared to the amount of work required for our project.
 Our proposal for this is a node based program where one can manipulate the flow of the data through various external MATLAB scripts; the nodes would be the scripts and the connecting vectors the data moving between them\footnote{An example for the functionality can be found here: \url{http://www.blender.org/development/release-logs/blender-242/blender-composite-nodes/}}.
 Such a program could be a future work with a wide array of alternate uses beyond this project.
 
@@ -149,24 +150,24 @@ This was done so that the motions would be the same between all subjects.
 We then had the subjects start with the motion and then pressed record.
 For the recording of jumping jacks, our software automatically recognized the start position and counted 10 cycles of jumping jacks.
 These 10 cycles were then saved in a text file consisting of the 3D vectors of the 16 skeleton points over the frames in time.
-% The recording of the skipping rope proved to be more difficult, so we eyeballed 10 successful cycles for our recordings.
 
 An example of the recording can be seen here: \url{http://youtu.be/CJLkOyAGtjk}. The Kinect stands to the right of the camera, at the same relative distance.
 
 \section{Creating Motionvectors to Represent Motion Data}
 
-Having saved all of the skeleton data received from the Kinect into textfields the representation of the jumping motion of every subject is a huge matrix. Each row of this matrix represents one single posture of the subject's body, which consists of 48 values:
+Having saved all of the skeleton data received from the Kinect into text files, the representation of the jumping motion of every subject is a huge matrix.
+Each row of this matrix represents one single posture of the subject's body consisting of 48 values.
 Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint.
 The postures can also be seen as points in the 48 dimensional space.
 
 This data is highly redundant.
 For example, jumping jack and jump rope are symmetrical motions.
-The right arm moves the same way as the left arm does except for reflection.
+The right arm moves the same way as the left arm does, except that it is mirrored.
 The same goes for the legs.
 
-Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the data's information using principal component analysis (PCA).
-Basically, what PCA does is to rotate and move the 48 dimensional cartesian coordinate system, in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion.
-The vectors that represent the axes of the in this way transformed coordinate system are called the principal components.
+Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the information within the data using principal component analysis (henceforth referred to as PCA).
+Basically, what the PCA does is to rotate and move the 48 dimensional Cartesian coordinate system in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion.
+The vectors that represent the axes of the transformed coordinate system are called the principal components.
 The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$.
 The principal components are the eigenvectors of the covariance matrix of the skeleton data set.
 Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
@@ -180,7 +181,7 @@ The reason for this characteristic is that our jumping motions are cyclic motion
 Therefore the coefficients of our \emph{eigenpostures} can be approximated using sinusoidal functions.
 This is done similar to the approach of \cite{origin}.
 Hereby a sine function is used to describe each of the coefficients of the \emph{eigenposture}.
-The approximation is done using MATLABs integrated \emph{fit} function.
+The approximation is done using MATLAB's integrated \emph{fit} function.
 The fitted graph of the example mentioned above can be seen at the bottom of figure \ref{fig:approx}.
 
 \begin{figure}[htb]
@@ -190,11 +191,11 @@ The fitted graph of the example mentioned above can be seen at the bottom of fig
 		\label{fig:approx}
 \end{figure}
 
-MATLABs \emph{fit} function also outputs the goodness of the fit in form of the square of the correlation ()\emph{rsquare}).
-Here values close the zero mean a bad fit and values close to one a good fit.
+MATLAB's \emph{fit} function also outputs the goodness of the fit in form of the square of the correlation ()\emph{rsquare}).
+Here values close to zero mean a bad fit and values close to one a good fit.
 A value of one would be an exact fit with no information lost.
 The goodness of the fit shown in figure \ref{fig:approx} is 0.90225 for the first and 0.80946 for the second coefficient.
-This is a rather good result when considered, that we use a motion of ten full cycles as input and every difference in each of the cycles impairs the approximation. 
+This is a rather good result considering that we used a motion of ten full cycles as input and every difference in each of the cycles impairs the approximation.
 Also the approximation goodness of this example is close the the average goodness of all our jumping jack \emph{eigenpostures}.
 This also counts for the following examples.
 
@@ -229,32 +230,55 @@ The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 
 % TODO Aufbau der Bewegunsvectoren
 
-% TODO Testpersonen, wohin?
+% TODO Testpersonen, wohin? Von Tamino: ist doch oben...? Oder wird hier was anderes gemeint?
 
 
 % \end{Andi}
 \section{Classification}
 
-For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector. Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion. Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions. However this time the unsimilarity of the data in the motionvectors might affect how good the PCA will work. The first PCA's input were 48-dimensional postures, each of the 48 entries was a distance describing one dimension of the three-dimensional position of a joint. All of the entries in each posture were comparable. The entries in the motionvector, however, described positions, frequencies, amplitudes and phases, thus the values of one motionvector had various magnitudes. Therefore we created a 141/143/144/146-dimensional standard deviation vector u containing the standard deviations of each motionvector-entry of the complete set of motionvectors. Each entry of each motionvector was then divided by the corresponding entry of u prior to running the PCA. The vector u was saved to file for later use.
+For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector.
+Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion.
+Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions.
+However this time the dissimilarity of the data in the motionvectors might affect how good the PCA will work.
+The first PCA's input were 48-dimensional postures where each of the 48 entries was a distance describing one dimension of the three-dimensional position of a joint.
+All of the entries in each posture were comparable.
+The entries in the motionvector, however, described positions, frequencies, amplitudes and phases, thus the values of one motionvector had various magnitudes.
+Therefore we created a 141/143/144/146-dimensional standard deviation vector u containing the standard deviations of each motionvector-entry of the complete set of motionvectors.
+Each entry of each motionvector was then divided by the corresponding entry of u prior to running the PCA.
+The vector u was saved to file for later use.
 
-The result of this second PCA is another set of eigenvectors, which we are going to refer to as the eigenjumpers comparable to the eigenwalkers of \cite{origin}, and for each jumping motion a set of coefficients. Given the eigenjumpers and the average motionvector one can reconstruct any motionvector by using the coefficients that belong to the motionvector. Exactly as with the first PCA this is achieved by adding up the average motionvector with the products of each eigenjumper with the corresponding coefficient.
+The result of this second PCA is another set of eigenvectors, which we are going to refer to as the eigenjumpers comparable to the eigenwalkers of \cite{origin}, and for each jumping motion a set of coefficients.
+Given the eigenjumpers and the average motionvector one can reconstruct any motionvector by using the coefficients that belong to the motionvector.
+Exactly as with the first PCA this is achieved by adding up the average motionvector with the products of each eigenjumper with the corresponding coefficient.
 
 \section{Synthesizing of Jumping Motions}
 
+TODO
+
 \section{Visualisation}
 
-This section is independent from the rest of the paper as the analytical methods don't matter. Our intent is to show the captured points of the skeleton in an representative 3D Model.
+This section is independent from the rest of the paper as the analytical methods don't matter.
+Our intent is to show the captured points of the skeleton in an representative 3D Model.
 
 \subsection{Absolute vs. Relative Values}
-As seen in the description of storing points in a ".txt" file the kinect uses Absolute Values to represent the skeleton  - which is absolutely useful, because otherwise it couldn't detect different lengths in body parts. Instead it would had to map the measured values on a defined body model. This procedure would cause inaccuracy.\
-While animating a defined model in the opposite you can't just easily scale single body parts to adjust the proportions. This problem needs as a solution a format invariant to scaling.
 
-\subsection{The .bvh file}
+As seen in the description of storing points in a ".txt" file the Kinect uses absolute values to represent the skeleton  - which is absolutely useful, because otherwise it couldn't detect different lengths in body parts.
+Instead it would had to map the measured values on a defined body model.
+This procedure would cause inaccuracy.
+While animating a defined model in the opposite you can't just easily scale single body parts to adjust the proportions.
+This problem needs as a solution a format invariant to scaling.
+
+\subsection{The .bvh File}
+
 The software used for testing the following part is Poser 9 from SmithMicro.\footnote{http://www.software3d.de/figurendesign/smithmicro-poser-9.html}
-A .bvh file is made up of two parts: The bodystructure and the frames.\
-The bodystructure defines the relationship between each bodypart. As one might see in
-Listing 1 this structure is build hierarchical. Each joint is represented by a name and the connection to its successors. Changing the value in a joint affects all the successors. 
-The standardpose (all angles in between 0) is the so called T-Pose. You can see the model standing with parallel feet looking straight forward and the arms are bend 90 degrees relative to the body.
+A .bvh file is made up of two parts: The bodystructure and the frames.
+The bodystructure defines the relationship between each bodypart.
+As one might see in Listing 1 this structure is build hierarchical.
+Each joint is represented by a name and the connection to its successors.
+Changing the value in a joint affects all the successors. 
+The standardpose (all angles in between 0) is the so called T-Pose.
+You can see the model standing with parallel feet looking straight forward and the arms are bend 90 degrees relative to the body.
+
 \begin{lstlisting}[caption=.bvh Connected Structure]{Name}
 JOINT lCollar
 {
@@ -267,7 +291,11 @@ JOINT lCollar
 			JOINT lForeArm
 \end{lstlisting}
 
-Responseable for the change over time is the second part of the file. In here we define the joint-angles. Really useful for this aspect of the project was the similarity between the recorded ".txt" file and the seond part of the ".bvh". Therefore we could calculate the absolute positions in a row from the .txt-File to angles and replace the current lines in the .bvh by the ones generated by a matlab script which will be shown in the following section.
+Responsible for the change over time is the second part of the file.
+There we define the joint-angles.
+Really useful for this aspect of the project was the similarity between the recorded ".txt" file and the second part of the ".bvh".
+Therefore we could calculate the absolute positions in a row from the .txt-file to angles and replace the current lines in the .bvh by the ones generated by a matlab script which will be shown in the following section.
+
 \begin{lstlisting}[caption=Motionpart of .bvh]{Name}
 MOTION
 Frames:     160
@@ -277,13 +305,12 @@ Frame Time: 1
 \end{lstlisting}
 
 \subsection{Calculating the angles}
-After finding the corresponding entries in the ".txt" and ".bvh" file now is the time to convert values. Using Matlab as  intermediary between the two formats we take the advantage of easy handling .txt to matrices. 
-\newline
-The problem is now solved by the vector based equation:
-\newline
-\begin{math}
-\vec a \cdot \vec b = \left|\vec a \right| \left|\vec b \right| \cos \phi
-\end{math}
+
+After finding the corresponding entries in the ".txt" and ".bvh" file now is the time to convert values.
+Using MATLAB as an intermediary between the two formats we take the advantage of the easy handling of .txt to matrices.
+
+The problem is now solved by the vector based equation: $\vec a \cdot \vec b = \left|\vec a \right| \left|\vec b \right| \cos \phi$.
+
 \begin{lstlisting}[caption=Calculating the angle]{Name}
 D = dlmread('nameSeilhuepfen0.txt');
 [...]
@@ -301,14 +328,12 @@ laengezwei=sqrt(Vektor46y^2 + Vektor46x^2);
 wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
 \end{lstlisting}
 
-
 \begin{figure}
 	\centering
 	\includegraphics[width=8cm]{3dRender.PNG}
 	\caption{Result of rendering.}
 	\label{fig:3drender}
 \end{figure}
-
 
 \section{Conclusion}
 
