@@ -103,6 +103,8 @@ The program is currently available as open source here \cite{csprogram} and can 
 	\label{fig:programm}
 \end{figure}
 
+
+
 \subsection{Processing the Data}
 
 The other software piece consisted of a multitude of MATLAB\cite{matlabprograms} scripts that were run in sequence on the files to generate our outputs.
@@ -132,6 +134,8 @@ The fixed nature of the experiment also limited the motion to one that could be 
 	\caption{Schematics of the arrangement for the recording of our source data.}
 	\label{fig:schematic}
 \end{figure}
+
+
 
 \subsection{Recording Subjects}
 
@@ -221,6 +225,14 @@ The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 		\label{fig:approx3}
 \end{figure}
 
+\subsection{Normalisation}
+While jumping there are unwished side-effects. People can't continuosly jump just up and down, but also back- and sidewards. This fact effects our first two eigenvectors. They loose importance in representing the whole movement. So we idealize the movement by removing all changes to the z-axis. The result can be seen in figure...
+\begin{figure}
+	\centering
+	\includegraphics[width=15cm]{sammel.png}
+	\caption{Normalisation effect on coefficents (left side without normalisation.}
+	\label{fig:schematic}
+\end{figure}
 
 \subsection{Comparison of original and after-processing-motions}
 
