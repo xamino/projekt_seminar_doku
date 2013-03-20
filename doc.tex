@@ -190,7 +190,7 @@ Hereby a sine function is used to describe each of the coefficients of the \emph
 The approximation is done using MATLAB's integrated \emph{fit} function.
 The fitted graph of the example mentioned above can be seen at the bottom of figure \ref{fig:approx}.
 
-\begin{figure}[htb]
+\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{1sinHamp.png}
 		\caption{Original dataset (top) and sinusoidal approximation (bottom).}
@@ -210,7 +210,7 @@ We tried therefore an additional approach to get even better results. That is to
 The result of this approach can be seen in figure \ref{fig:approx2}.
 Here the \emph{rsquare} values are 0.98515 for the first and 0.9366 for the second coefficient and thus represents a better model of our jumping jack motion.
 
-\begin{figure}[htb]
+\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{2sinHamp.png}
 		\caption{Original dataset (top) and sinusoidal approximation using two overlapping sine functions (bottom).}
@@ -220,7 +220,7 @@ Here the \emph{rsquare} values are 0.98515 for the first and 0.9366 for the seco
 The skipping motion, as seen in figure \ref{fig:approx3}, however does not have this characteristic so here only one sine function was used for our further work.
 The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 
-\begin{figure}[htb]
+\begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{1sinSeil.png}
 		\caption{Original dataset of a skipping motion (top) and its sinusoidal approximation (bottom).}
@@ -228,11 +228,14 @@ The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 \end{figure}
 
 \subsection{Normalisation}
-While jumping there are unwished side-effects. People can't continuosly jump just up and down, but also back- and sidewards. This fact effects our first two eigenvectors. They loose importance in representing the whole movement. So we idealize the movement by removing all changes to the z-axis. The result can be seen in figure...
+While jumping there are unwanted side-effects. People can't continuously jump just up and down, but also back- and sidewards. This fact effects our first two eigenvectors. They loose importance in representing the whole movement. So we idealize the movement by removing all changes to the z-axis. The result can be seen in figure \ref{fig:sammel}.
+
+% Was ist mit normalisieren der Hüfte auf x? 
+
 \begin{figure}
 	\centering
 	\includegraphics[width=15cm]{sammel.png}
-	\caption{Normalisation effect on coefficents (left side without normalisation.}
+	\caption{Normalisation effect on coefficients (left side without normalisation).}
 	\label{fig:sammel}
 \end{figure}
 
@@ -241,10 +244,27 @@ While jumping there are unwished side-effects. People can't continuosly jump jus
 % TODO Animationen vergleichen / in pdf einbinden?
 
 \subsection{Creation of Motion Vectors}
+To create a motion vector, which is to describe the full motion cycle using our sinusoidal approximation, we need the average posture created earlier and the first two \emph{eigenpostures} including the sinusoidal approximation of their coefficients.
+However due to the normalisation mentioned earlier we don't need all three positional values of our skeleton points, but can ignore X and Z values for the hip.
+Therefore we have three positional values X,Y,Z for 15 skeleton points and only one additional for the hip resulting in 48 values for each posture.
+To describe the sinusoidal approximation we use different setups for our four options.
 
-% TODO Aufbau der Bewegunsvectoren
+When using one sine wave for each \emph{eigenposture} and the jumping jack motion, it is sufficient to track the wave's amplitude for each posture and one frequency since the second wave's frequency is exactly twice the first one's for all test subjects.
+Also, as the waves are in phase for all test subjects we did not have to track the phases.
+This results in motion vector of 141 dimensions to describe the jumping jack motion.
 
-% TODO Testpersonen, wohin? Von Tamino: ist doch oben...? Oder wird hier was anderes gemeint?
+When using two sine waves for each of the \emph{eigenpostures} and the jumping jack motion, we need to track the four wave's amplitudes the frequency and three phases relative to the first wave's phase.
+This results in a 146 dimensional motion vector.
+
+When using two overlapping sine waves for the first and one sine wave for the second \emph{eigenposture} on the jumping jack motion, we need to track the three wave's amplitudes the frequency and two phases relative to the first waves's phase.
+This results in a 144 dimensional motion vector.
+
+For our rope skipping motion we need the two amplitudes but also two frequencies as there is no recognisable pattern in the waves.
+It appears to be a multiple of the first frequency for some test subjects but not always the double.
+Also one phase is needed for the second wave relative to the first one.
+This results in a 143 dimensional motion vector for the rope skipping motion.
+
+% TODO Testpersonen, wohin? Von Tamino: ist doch oben...? Oder wird hier was anderes gemeint? % die Folie "Testpersonen" mit den geeigneten personen pro option -> grund für die 2+1 geschichte
 
 
 % \end{Andi}
