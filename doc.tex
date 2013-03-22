@@ -273,17 +273,20 @@ This results in a 143 dimensional motion vector for the rope skipping motion.
 For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector.
 Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion.
 Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions.
-However this time the dissimilarity of the data in the motionvectors might affect how good the PCA will work.
-The first PCA's input were 48-dimensional postures where each of the 48 entries was a distance describing one dimension of the three-dimensional position of a joint.
+However this time the dissimilarity of the data in the motionvectors might affect how well the PCA will work.
+The first PCA's input were 48-dimensional postures where each of the 48 entries was a distance describing one dimension of the three-dimensional position of one joint.
 All of the entries in each posture were comparable.
-The entries in the motionvector, however, described positions, frequencies, amplitudes and phases, thus the values of one motionvector had various magnitudes.
+The entries in the motionvector, however, describe positions, frequencies, amplitudes and phases, thus the values of one motionvector has various magnitudes.
 Therefore we created a 141/143/144/146-dimensional standard deviation vector u containing the standard deviations of each motionvector-entry of the complete set of motionvectors.
 Each entry of each motionvector was then divided by the corresponding entry of u prior to running the PCA.
-The vector u was saved to file for later use.
+The vector u was saved to a file for later use.
 
-The result of this second PCA is another set of eigenvectors, which we are going to refer to as the eigenjumpers comparable to the eigenwalkers of \cite{origin}, and for each jumping motion a set of coefficients.
-Given the eigenjumpers and the average motionvector one can reconstruct any motionvector by using the coefficients that belong to the motionvector.
-Exactly as with the first PCA this is achieved by adding up the average motionvector with the products of each eigenjumper with the corresponding coefficient.
+The result of this second PCA is another set of eigenvectors, which we are going to refer to as the eigenjumpers, comparable to the eigenwalkers of \cite{origin}, and for each jumping motion a set of coefficients (also called weights or scores).
+Given the eigenjumpers and the average motionvector one can reconstruct any motionvector by using the coefficients that belong to the motionvector. Exactly as with the first PCA this is achieved by adding up the average motionvector to the sum of the products of each eigenjumper and its corresponding coefficient.
+For this reason the coefficients that belong to one subject's data are another representation of this subject's jumping motion.
+The matrix K contains these coefficients. Each row of K consists of one subject's jumping motion.
+Due to the PCA the entries in the beginning of each row contribute the most to the representation of the jumping motion, whereas the entries in the end of the row contain little information and might be omitted. As we will see later the choice of how many of the coefficients we are going to use for classification is an important one, because too few coeffiecients might not be an adequate representation of the motion, otherwise too many coefficients will describe each motion to specifically.
+
 
 \section{Synthesizing of Jumping Motions}
 
