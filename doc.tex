@@ -273,6 +273,9 @@ This results in a 143 dimensional motion vector for the rope skipping motion.
 For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector.
 Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion.
 Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions.
+
+\subsection{Using Standard Deviations to Normalize Motionvectors}
+
 However this time the dissimilarity of the data in the motionvectors might affect how well the PCA will work.
 The first PCA's input were 48-dimensional postures where each of the 48 entries was a distance describing one dimension of the three-dimensional position of one joint.
 All of the entries in each posture were comparable.
@@ -281,12 +284,23 @@ Therefore we created a 141/143/144/146-dimensional standard deviation vector u c
 Each entry of each motionvector was then divided by the corresponding entry of u prior to running the PCA.
 The vector u was saved to a file for later use.
 
+\subsection{Running a PCA on the Motionvectors}
+
 The result of this second PCA is another set of eigenvectors, which we are going to refer to as the eigenjumpers, comparable to the eigenwalkers of \cite{origin}, and for each jumping motion a set of coefficients (also called weights or scores).
 Given the eigenjumpers and the average motionvector one can reconstruct any motionvector by using the coefficients that belong to the motionvector. Exactly as with the first PCA this is achieved by adding up the average motionvector to the sum of the products of each eigenjumper and its corresponding coefficient.
 For this reason the coefficients that belong to one subject's data are another representation of this subject's jumping motion.
-The matrix K contains these coefficients. Each row of K consists of one subject's jumping motion.
-Due to the PCA the entries in the beginning of each row contribute the most to the representation of the jumping motion, whereas the entries in the end of the row contain little information and might be omitted. As we will see later the choice of how many of the coefficients we are going to use for classification is an important one, because too few coeffiecients might not be an adequate representation of the motion, otherwise too many coefficients will describe each motion to specifically.
+The matrix K contains these coefficients. Each row of K consists of one subject's jumping motion. In the following we will use $k_{i}$ as a name for the i-th row of K, being the coefficients of the i-th jumping motion.
+Due to the PCA the entries in the beginning of each row contribute the most to the representation of the jumping motion, whereas the entries in the end of the row contain little information and might be omitted. As we will see later the choice of how many of the coefficients we are going to use for classification is an important one, because too few coeffiecients might not be an adequate representation of the motion, otherwise too many coefficients will describe each motion to specifically and therefore might be difficult too classify.
 
+\subsection{Creating the Classifier c}
+
+To create the classifier, a resultvector r was defined containing one entry for each of the recorded motions. The corresponding entry was 1 if the subject performing the motion was wearing the weight-vest, if this wasn't the case the entry was -1. The classifier c was then created by solving the linear equation system $K \cdot c=r$. (Note: This is different from the equation in \cite{origin}, because there the coefficients of one walking motion were contained in one column of K, rather than in one row as K was defined here.)
+
+The number of coefficients was more than 140, which is far more than the number of recorded jumping motions. This means, that the linear equation system $K \cdot c=r$ cannot be solved uniquely. There is an infinity number of possible solutions of c. Since the most important entries of c would be the ones in the beginning (because they will correspond to the more important coefficients in K), a solution for c was chosen, in which as much as possible of the entries in the end were set 0. This means only the entries in the beginning of c contained valuable information.
+
+\subsection{Classifying Jumping Motions}
+
+Any of the recorded jumpin motions can be classified by building the dot product of the corresponding coefficients and the classifier c. Due to the defintion of c, the result of this dot product is either 1 or -1, indicating whether the jumping motion was performed with or without the weight-vest. As mentioned earlier, the most important information of c is contained in the entries in the beginning. It is now examined how well the classifier works if it is not used completely, but rather only the first n entries of c and $k_{i}$ were used to determine whether the weight-vest influenced the i-th jumping motion or not. Instead of the dot product, the term $\sum\limits_{j=1}^n c_{j} k_{i,j}$ was applied. If the result was positive, it was classified as weight-burdened motion, otherwise, it was classified as burdenless motion. Naturally, for small n the error rate was quite high getting smaller for increasing n. One can easily comprehend, that there are no more misclassifications when n reaches the number of jumping motions, because this is the number of nonzero entries in c, all of the following entries are 0, anyways.
 
 \section{Synthesizing of Jumping Motions}
 
