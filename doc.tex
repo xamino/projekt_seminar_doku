@@ -300,7 +300,17 @@ The number of coefficients was more than 140, which is far more than the number 
 
 \subsection{Classifying Jumping Motions}
 
-Any of the recorded jumpin motions can be classified by building the dot product of the corresponding coefficients and the classifier c. Due to the defintion of c, the result of this dot product is either 1 or -1, indicating whether the jumping motion was performed with or without the weight-vest. As mentioned earlier, the most important information of c is contained in the entries in the beginning. It is now examined how well the classifier works if it is not used completely, but rather only the first n entries of c and $k_{i}$ were used to determine whether the weight-vest influenced the i-th jumping motion or not. Instead of the dot product, the term $\sum\limits_{j=1}^n c_{j} k_{i,j}$ was applied. If the result was positive, it was classified as weight-burdened motion, otherwise, it was classified as burdenless motion. Naturally, for small n the error rate was quite high getting smaller for increasing n. One can easily comprehend, that there are no more misclassifications when n reaches the number of jumping motions, because this is the number of nonzero entries in c, all of the following entries are 0, anyways.
+Any of the recorded jumpin motions can be classified by building the dot product of the corresponding coefficients and the classifier c.
+Due to the defintion of c, the result of this dot product is either 1 or -1, indicating whether the jumping motion was performed with or without the weight-vest.
+As mentioned earlier, the most important information of c is contained in the entries in the beginning.
+It is now examined how well the classifier works if it is not used completely, but rather only the first n entries of c and $k_{i}$ were used to determine whether the weight-vest influenced the i-th jumping motion or not.
+Instead of the dot product, the term $\sum\limits_{j=1}^n c_{j} k_{i,j}$ was applied. If the result was positive, it was classified as weight-burdened motion, otherwise, it was classified as burdenless motion.
+Naturally, for small n the error rate was quite high getting smaller for increasing n.
+One can easily comprehend, that there are no more misclassifications when n reaches the number of jumping motions, because this is the number of nonzero entries in c, all of the following entries are 0, anyways.
+For an n equal to or higher than the number of recorded motions, the result of $\sum\limits_{j=1}^n c_{j} k_{i,j}$ is therefore always 1 or -1, because the entries after the n-th entry don't contribute anything to the sum.
+For an n smaller than the number of motions, the result of the sum might be different than 1 or -1, but the sign might still be sufficient to classify the motion correctly
+
+The blue lines in figures (TODO: Bilder einfügen) show the percentaged number of misclassifications depending on n, the number of used entries of c and $k_{i}$.
 
 \section{Synthesizing of Jumping Motions}
 
