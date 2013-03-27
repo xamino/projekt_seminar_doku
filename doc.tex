@@ -294,9 +294,13 @@ Due to the PCA the entries in the beginning of each row contribute the most to t
 
 \subsection{Creating the Classifier c}
 
-To create the classifier, a resultvector r was defined containing one entry for each of the recorded motions. The corresponding entry was 1 if the subject performing the motion was wearing the weight-vest, if this wasn't the case the entry was -1. The classifier c was then created by solving the linear equation system $K \cdot c=r$. (Note: This is different from the equation in \cite{origin}, because there the coefficients of one walking motion were contained in one column of K, rather than in one row as K was defined here.)
+To create the classifier, a resultvector r was defined containing one entry for each of the recorded motions. The corresponding entry was 1 if the subject performing the motion was wearing the weight-vest, if this wasn't the case the entry was -1. The classifier c was then created by solving the linear equation system
+\begin{align}
+	K \cdot c=r \label{eq:cEquation}
+\end{align} 
+(Note: This is different from the equation in \cite{origin}, because there the coefficients of one walking motion were contained in one column of K, rather than in one row as K was defined here.)
 
-The number of coefficients was more than 140, which is far more than the number of recorded jumping motions. This means, that the linear equation system $K \cdot c=r$ cannot be solved uniquely. There is an infinity number of possible solutions of c. Since the most important entries of c would be the ones in the beginning (because they will correspond to the more important coefficients in K), a solution for c was chosen, in which as much as possible of the entries in the end were set 0. This means only the entries in the beginning of c contained valuable information.
+The number of coefficients was more than 140, which is far more than the number of recorded jumping motions. This means, that the linear equation system \ref{eq:cEquation} cannot be solved uniquely. There is an infinity number of possible solutions of c. Since the most important entries of c would be the ones in the beginning (because they will correspond to the more important coefficients in K), a solution for c was chosen, in which as much as possible of the entries in the end were set 0. This means only the entries in the beginning of c contained valuable information.
 
 \subsection{Classifying Jumping Motions}
 
@@ -304,13 +308,30 @@ Any of the recorded jumpin motions can be classified by building the dot product
 Due to the defintion of c, the result of this dot product is either 1 or -1, indicating whether the jumping motion was performed with or without the weight-vest.
 As mentioned earlier, the most important information of c is contained in the entries in the beginning.
 It is now examined how well the classifier works if it is not used completely, but rather only the first n entries of c and $k_{i}$ were used to determine whether the weight-vest influenced the i-th jumping motion or not.
-Instead of the dot product, the term $\sum\limits_{j=1}^n c_{j} k_{i,j}$ was applied. If the result was positive, it was classified as weight-burdened motion, otherwise, it was classified as burdenless motion.
+Instead of the dot product, the term
+\begin{align}
+	\sum\limits_{j=1}^n c_{j} k_{i,j} \label{eq:dotproduct}
+\end{align} 
+was applied. If the result was positive, it was classified as weight-burdened motion, otherwise, it was classified as burdenless motion.
 Naturally, for small n the error rate was quite high getting smaller for increasing n.
 One can easily comprehend, that there are no more misclassifications when n reaches the number of jumping motions, because this is the number of nonzero entries in c, all of the following entries are 0, anyways.
-For an n equal to or higher than the number of recorded motions, the result of $\sum\limits_{j=1}^n c_{j} k_{i,j}$ is therefore always 1 or -1, because the entries after the n-th entry don't contribute anything to the sum.
-For an n smaller than the number of motions, the result of the sum might be different than 1 or -1, but the sign might still be sufficient to classify the motion correctly
+For an n equal to or higher than the number of recorded motions, the result of the term \ref{eq:dotproduct} is therefore always 1 or -1, because the entries after the n-th entry don't contribute anything to the sum.
+For an n smaller than the number of motions, the result of the sum might be different than 1 or -1, but the sign might still be sufficient to classify the motion correctly.
 
-The blue lines in figures (TODO: Bilder einfügen) show the percentaged number of misclassifications depending on n, the number of used entries of c and $k_{i}$.
+The blue lines in figures (TODO: Bilder einfügen) show the percentaged number of misclassifications depending on n, the number of used entries of c and $k_{i}$. As you can see, there usually is an n smaller than the number of motions for which is already high enough to classify all motions correctly.
+
+\subsection{The Take-One-Out-Strategy}
+
+For now we only had one classifier c trained by all the recorded motions.
+For a sufficiently large number of used principal components this classifier can classify all of the motions correctly.
+A far more interesting question is, how well the classifier will work for a new jumping motion which wasn't used to train it.
+For this reason we used a take-one-out-strategy, taking one out of our set of recorded motions and computing the classifier c for the remaining motions.
+The motion that was taken out first was then classified using the classifier trained by all of the other motions. This was repeated for all motions, until all motions have been taken out and were classified. The number of misclassifications is shown as the red line in figures (TODO: Bilder einfügen) depending on the number of used principal components.
+
+TODO: conclusion for the red line
+
+\subsection{Classification Using Only Parts of the Motionvectors}
+
 
 \section{Synthesizing of Jumping Motions}
 
