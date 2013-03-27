@@ -318,7 +318,7 @@ One can easily comprehend, that there are no more misclassifications when n reac
 For an n equal to or higher than the number of recorded motions, the result of the term \ref{eq:dotproduct} is therefore always 1 or -1, because the entries after the n-th entry don't contribute anything to the sum.
 For an n smaller than the number of motions, the result of the sum might be different than 1 or -1, but the sign might still be sufficient to classify the motion correctly.
 
-The blue lines in figures (TODO: Bilder einfügen) show the percentaged number of misclassifications depending on n, the number of used entries of c and $k_{i}$. As you can see, there usually is an n smaller than the number of motions for which is already high enough to classify all motions correctly.
+The blue curves in figure \ref{fig:classification} show the percentaged number of misclassifications depending on n, the number of used entries of c and $k_{i}$. As you can see, there usually is an n smaller than the number of motions for which is already high enough to classify all motions correctly.
 
 \begin{figure}
 		\centering
@@ -333,7 +333,7 @@ For now we only had one classifier c trained by all the recorded motions.
 For a sufficiently large number of used principal components this classifier can classify all of the motions correctly.
 A far more interesting question is, how well the classifier will work for a new jumping motion which wasn't used to train it.
 For this reason we used a take-one-out-strategy, taking one out of our set of recorded motions and computing the classifier c for the remaining motions.
-The motion that was taken out first was then classified using the classifier trained by all of the other motions. This was repeated for all motions, until all motions have been taken out and were classified. The number of misclassifications is shown as the red line in figures (TODO: Bilder einfügen) depending on the number of used principal components.
+The motion that was taken out first was then classified using the classifier trained by all of the other motions. This was repeated for all motions, until all motions have been taken out and were classified. The number of misclassifications is shown as the red curves in figure \ref{fig:classification} depending on the number of used principal components.
 
 TODO: conclusion for the red line
 
