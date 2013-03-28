@@ -323,7 +323,7 @@ The blue curves in figure \ref{fig:classification} show the percentaged number o
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{klassifikation.png}
-		\caption{TODO: Beschreibung hier einfügen}
+		\caption{Classification errors depending on the number of used principal components. The blue curve shows the number of misclassifications using the universal classifier that was trained with all the motionvectors, the red curve depicts the misclassified motionvectors using the take-one-out-strategy. The following types of motionvectors were classified here: \\a: jumping jack using one sinus function for both eigenpostures \\b: jumping jack using the sum of two sinus functions for both eigenpostures \\c: jumping jack using two sinus functions for the first eigenposture and one for the second \\d: rope skipping \\e: only structural information of jumping jack with two and one sinus functions \\f: only dynamic information of jumping jack with two and one sinus functions}
 		\label{fig:classification}
 \end{figure}
 
@@ -334,7 +334,7 @@ For a sufficiently large number of used principal components this classifier can
 A far more interesting question is, how well the classifier will work for a new jumping motion which wasn't used to train it.
 For this reason we used a take-one-out-strategy, taking one out of our set of recorded motions and computing the classifier c for the remaining motions.
 The motion that was taken out first was then classified using the classifier trained by all of the other motions. This was repeated for all motions, until all motions have been taken out and were classified. The number of misclassifications is shown as the red curves in figure \ref{fig:classification} depending on the number of used principal components.
-
+us
 TODO: conclusion for the red line
 
 \subsection{Classification Using Only Parts of the Motionvectors}
