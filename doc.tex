@@ -323,7 +323,18 @@ The blue curves in figure \ref{fig:classification} show the percentaged number o
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{klassifikation.png}
-		\caption{Classification errors depending on the number of used principal components. The blue curve shows the number of misclassifications using the universal classifier that was trained with all the motionvectors, the red curve depicts the misclassified motionvectors using the take-one-out-strategy. The following types of motionvectors were classified here: \\a: jumping jack using one sinus function for both eigenpostures \\b: jumping jack using the sum of two sinus functions for both eigenpostures \\c: jumping jack using two sinus functions for the first eigenposture and one for the second \\d: rope skipping \\e: only structural information of jumping jack with two and one sinus functions \\f: only dynamic information of jumping jack with two and one sinus functions}
+		\caption{Classification errors depending on the number of used principal components.
+		The blue curve shows the number of misclassifications using the universal classifier that was trained with all the motionvectors, the red curve depicts the misclassified motionvectors using the take-one-out-strategy.
+		The following types of motionvectors were classified here:
+		\\a: jumping jack using one sine wave for both eigenpostures
+		\\b: jumping jack using the sum of two sine waves for both eigenpostures
+		\\c: jumping jack using two sine waves for the first eigenposture and one for the second
+		\\d: jumping jack, only average posture (structural information)
+		\\e: jumping jack, all entries except average posture (dynamic information), one sine wave for both eigenpostures
+		\\f: jumping jack, only first and second eigenposture (dynamic information)
+		\\g: rope skipping
+		\\h: rope skipping, only average posture (structural information)
+		\\i: rope skipping, only first and second eigenposture (dynamic information)}
 		\label{fig:classification}
 \end{figure}
 
@@ -331,13 +342,22 @@ The blue curves in figure \ref{fig:classification} show the percentaged number o
 
 For now we only had one classifier c trained by all the recorded motions.
 For a sufficiently large number of used principal components this classifier can classify all of the motions correctly.
-A far more interesting question is, how well the classifier will work for a new jumping motion which wasn't used to train it.
-For this reason we used a take-one-out-strategy, taking one out of our set of recorded motions and computing the classifier c for the remaining motionvectors.
-The motion that was taken out first was then classified using the classifier trained by all of the other motionvectors. This was repeated for all motions, until all motions have been taken out and were classified. The number of misclassifications is shown as the red curves in figure \ref{fig:classification} as a function of the number of used principal components.
-us
-TODO: conclusion for the red line
+A far more interesting question is, how well the classifier will work for a new jumping motion that wasn't used to train it.
+For this reason \cite{origin} used a take-one-out-strategy, taking one out of the set of recorded walkers and computing the classifier c for the remaining walkers. In our work we took out one subject's two motionvectors (one of them weight-burdened, the other one burdenless) and classified both of them using the classifier trained by the other motionvectors. The classification was determined by projecting the motionvectors that were to be classified onto the eigenjumpers of the other motionvectors and the term \ref{eq:dotproduct} was applied to both of them. This was repeated for all subject's motionvectors, until all of them have been taken out and were classified. The number of misclassifications is shown as the red curves in figure \ref{fig:classification} as a function of the number of used principal components.
+
+Figure \ref{fig:classification} (a) shows the misclassifications using the 141-dimensional motionvector jumping jack representation that uses only one sine wave to represent the coefficients of each eigenposture. At the minimum about 30\% of the recorded motions were misclassified using about 24 principal components. This was improved slightly to 27\% misclassifications in figure \ref{fig:classification} (b) using the 146-dimensional jumping jack motionvectors that utilised the sum of two sine waves to represent the coefficients of each eigenposture. Even though the 144-dimensional jumping jack representation that uses two cumulative sine waves for the first eigenposture and only one sine wave for the second eigenposture is a worse reprensentation than the 146-dimensional one with two sine waves for each eigenposture, the former one has a better misclassification rate of less than 25\%, because more of the recorded jumping jack motions were applicable to this 144-dimensional representation. This is shown in figure \ref{fig:classification} (c). The minimum of about 24\% is achievied by using about 17 principal components.
+
+Rope skipping in figure \ref{fig:classification} (g) had a minimum error rate of less than one third using 19 principal components.
 
 \subsection{Classification Using Only Parts of the Motionvectors}
+
+The curves in figure \ref{fig:classification} (d), (e), (f), (h) and (i) show the error rate of jumping motions using only parts of the motionvector. (d), (e) and (f) show the classification of jumping jack, (h) and (i) rope skipping. In (d) and (h) the first 46 entries of the motionvector were used being the average posture, that means the structural data. In \cite{origin} it turned out, that this kind of data wasn't essential for gender-classification. We experienced the same with the rope skipping motion: weight-burden classification didn't work well. For the jumping jack, however, the minimum classification error using only the average posture was clearly smaller than 30\%. A possible explanation for this is that the average posture contains information about a subject's weight-burden, because the weight-vest would push a subject down to the floor, influencing its posture.
+
+(e) shows the jumping jack (one sine wave for both eigenpostures) classification using all the motionvector's entries except the average posture being the dynamic information of the motionvector. The curves show, that this doesn't work well for classification.
+
+In \cite{origin} the best result for classification was achieved using the first three eigenpostures. In (f) and (i) anything but the first two eigenpostures were used resulting in a minimum classification of about 22\% each. This is so far the best result.
+
+We see that for rope skipping using only the two eigenpostures seems to work clearly better than using the complete motionvector. For jumping jack the difference of minimum misclassifications between (i) and (c) is really small. Further studies would be necessary to determine which method works better.
 
 
 \section{Synthesizing of Jumping Motions}
@@ -424,9 +444,7 @@ wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
 	\label{fig:3drender}
 \end{figure}
 
-\section{Conclusion}
 
-TODO: Put conclusion here.
 
 \newpage
 \bibliography{doc}
