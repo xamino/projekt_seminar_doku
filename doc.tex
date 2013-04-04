@@ -326,15 +326,15 @@ The blue curves in figure \ref{fig:classification} show the percentaged number o
 		\caption{Classification errors depending on the number of used principal components.
 		The blue curve shows the number of misclassifications using the universal classifier that was trained with all the motionvectors, the red curve depicts the misclassified motionvectors using the take-one-out-strategy.
 		The following types of motionvectors were classified here:
-		\\a: jumping jack using one sine wave for both eigenpostures
-		\\b: jumping jack using the sum of two sine waves for both eigenpostures
-		\\c: jumping jack using two sine waves for the first eigenposture and one for the second
-		\\d: jumping jack, only average posture (structural information)
-		\\e: jumping jack, all entries except average posture (dynamic information), one sine wave for both eigenpostures
-		\\f: jumping jack, only first and second eigenposture (dynamic information)
-		\\g: rope skipping
-		\\h: rope skipping, only average posture (structural information)
-		\\i: rope skipping, only first and second eigenposture (dynamic information)}
+		a: jumping jack using one sine wave for both eigenpostures
+		b: jumping jack using the sum of two sine waves for both eigenpostures
+		c: jumping jack using two sine waves for the first eigenposture and one for the second
+		d: jumping jack, only average posture (structural information)
+		e: jumping jack, all entries except average posture (dynamic information), one sine wave for both eigenpostures
+		f: jumping jack, only first and second eigenposture (dynamic information)
+		g: rope skipping
+		h: rope skipping, only average posture (structural information)
+		i: rope skipping, only first and second eigenposture (dynamic information)}
 		\label{fig:classification}
 \end{figure}
 
@@ -370,7 +370,14 @@ Jumping patterns can therefore be synthesized, by creating new motionvectors.
 A simple, intuitive way to do so is to calculate the average motionvector of weight-burdened motionvectors and the one of the burdenless motions (using motionvectors that weren't divided by the standard deviations first).
 These average motionvectors can be seen as two points in the 141/143/144/146-dimensional space. It would be interesting to have a closer look to the motionvectors lying on the straight line defined by these two points.
 The points that lie beyond any of the two motionvectors would be exaggerations, either showing a really heavy burdened jumping motion or a very light burdenless motion.
-These points were calculated by building the difference between the two average points (the vector pointing from one of the points to the other) multiplying the result by a freely choosable weight $\alpha\in\mathbb{R}$ and adding this to the average of all the motionvectors. The most eye-catching feature of the resulting animation was, that a highly exaggerated burdenless jumper was jumping much faster than an exaggerated weight-burdened jumper. Sadly the difference in speed was so high, that other features almost weren't visible in the animation. Therefore we changed the difference vector dividing the entry that contained the frequency by 10. In the animation, the exaggerated burdenless jumper was still faster than its burdened equivalent, but the difference in speed was growing slowlier with an increasing level of exaggeration. Other features were therefore observable in the animations. The burdenless jumper jumped higher raising its hands far above his head. Its average posture also was clearly higher than the burdened jumper whose motions appeared to be rather vertical.
+These points were calculated by building the difference between the two average points (the vector pointing from one of the points to the other) multiplying the result by a freely choosable weight $\alpha \in R$ and adding this to the average of all the motionvectors.
+The most eye-catching feature of the resulting animation was, that a highly exaggerated burdenless jumper was jumping much faster than an exaggerated weight-burdened jumper.
+Sadly the difference in speed was so high, that other features almost weren't visible in the animation.
+Therefore we changed the difference vector dividing the entry that contained the frequency by 10.
+In the animation, the exaggerated unburdened jumper was still faster than its burdened equivalent, but the difference in speed was growing slower with an increasing level of exaggeration.
+Other features were therefore observable in the animations.
+The unburdened jumper jumped higher raising its hands far above his head.
+Its average posture also was clearly higher than the burdened jumper whose motions appeared to be rather vertical.
 
 \subsection{Synthesizing Using the Classifier}
 
