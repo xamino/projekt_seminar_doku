@@ -1,18 +1,5 @@
-%\documentclass[a4paper]{article}
+\documentclass[a4paper]{article}
 
-\documentclass[
-  	a4paper,
- 	10pt,
-	bibliography=totoc,
- 	listof=totoc,
- 	twoside,
- 	openright,
- 	numbers=noenddot,
- 	headings=normal,
- 	chapterprefix,	% Kapitel mit zusätzlichem Titel "Kapitel" darstellen
- 	headsepline,	% Linie nach Kopfzeile
- 	DIV=9
-]{article} 
 
 % Because it looks better:
 \usepackage{a4wide}
@@ -51,7 +38,7 @@
 \begin{titlepage}
 % titelseite
 \thispagestyle{empty}
-%\begin{addmargin*}[4mm]{-32mm}
+
 
 \includegraphics[height=1.8cm]{unilogo_bild}
 \hfill
@@ -70,11 +57,11 @@
 
 \begin{abstract}
 % uebersetzen
-Aufbauend auf der Studie "Decomposing biological motion: A framework for analysis and synthesis of human gait patterns." [Troje, Journal of Vision, 2002] wurde ein Algorithmus zur Representation und Analyse biologischer Bewegungen implementiert.
-Hierzu wurden eine Vielzahl von Testpersonen bei der Durchführung von Sprungbewegungen (Hampelmann / Seilhüpfen) mittels aktiver Tiefenkamera (Microsoft Kinect) aufgenommen.
-Als das im Rahmen einer Klassifikationsaufgabe zu unterscheidende Merkmal wurde das Gewicht der Probanden während den Aufnahmen über eine Gewichtsweste variiert.
-Die so gewonnenen Daten wurden über statistischen Methoden analysiert und in eine niedrigdimensionale Repräsentation überführt.
-Der resultierende Klassifikator konnte bei über 75\% der Bewegungen korrekt erkennen, ob diese mit oder ohne Gewichtsweste ausgeführt wurden.
+Building on top of the study "Decomposing biological motion: A framework for analysis and synthesis of human gait patterns." [Troje, Journal of Vision, 2002] an algorithm to represent and analyse biological motion was implemented.
+Herefor a multitude of test subjects were recorded doing jumping motions (jumping jack / rope skipping) using an active depth camera.
+As the to differentiate variable the weight of the subjects was changed for the recording using a weight vest.
+The thus collected data was analysed with a statistical method and transformed into a lower dimensional representation.
+The resulting classifier was capable of correctly recognizing 75\% of the motions, whether these were with or without the additional weight.
 \end{abstract}
 
 \vfill
@@ -82,7 +69,7 @@ Der resultierende Klassifikator konnte bei über 75\% der Bewegungen korrekt erk
 \today
 
 }
-%\end{addmargin*}
+
 \end{titlepage}
 
 \section{Introduction}
