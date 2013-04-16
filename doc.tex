@@ -1,4 +1,18 @@
-\documentclass[a4paper]{article}
+%\documentclass[a4paper]{article}
+
+\documentclass[
+  	a4paper,
+ 	10pt,
+	bibliography=totoc,
+ 	listof=totoc,
+ 	twoside,
+ 	openright,
+ 	numbers=noenddot,
+ 	headings=normal,
+ 	chapterprefix,	% Kapitel mit zusätzlichem Titel "Kapitel" darstellen
+ 	headsepline,	% Linie nach Kopfzeile
+ 	DIV=9
+]{article} 
 
 % Because it looks better:
 \usepackage{a4wide}
@@ -6,6 +20,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\usepackage{microtype}
 % Packages for pictures:
 \usepackage{graphicx}
 \usepackage{float}
@@ -18,6 +33,7 @@
 \usepackage{hyperref}
 \usepackage{amsmath}
 \bibliographystyle{alpha}
+
 
 % Now let us define a few shortcuts:
 % Correct sign for C#:
@@ -32,15 +48,25 @@
 % --------------------------------------------------------------------------------------------!
 
 \begin{document}
-\begin{figure}
-	\includegraphics[width=15.5cm]{header.PNG}
-\end{figure}
-\title{An Exposition of Biological Motion:\\ Weight Effects on Jumping Motion}
+\begin{titlepage}
+% titelseite
+\thispagestyle{empty}
+%\begin{addmargin*}[4mm]{-32mm}
 
-\author{Andreas Köll, Johannes Bohner \\ Burkhard Hoppenstedt, Tamino Hartmann \\\\ Visual Information Processing \\ WS 2012/2013}
-\date{\today}
+\includegraphics[height=1.8cm]{unilogo_bild}
+\hfill
+\includegraphics[height=1.8cm]{unilogo_wort}\\[1em]
 
-\maketitle
+{\footnotesize
+{\bfseries Universität Ulm} \textbar ~89069 Ulm \textbar ~Germany
+\hspace*{78.5mm}\parbox[t]{38mm}{\bfseries Faculty of \\ Engineering and\\Computer Science\\
+\mdseries Institute of Neural\\Information Processing}\\[2cm]
+
+\parbox{140mm}{\bfseries \huge An Exposition of Biological Motion:\\ Weight Effects on Jumping Motion}\\[0.5em]
+
+\parbox{140mm}{Project seminar at Ulm University\\Visual Information Processing \\ WS 2012/2013}\\[3em]
+
+\parbox{140mm}{Andreas Köll, Johannes Bohner \\ Burkhard Hoppenstedt, Tamino Hartmann}\\[3em]
 
 \begin{abstract}
 % uebersetzen
@@ -50,7 +76,14 @@ Als das im Rahmen einer Klassifikationsaufgabe zu unterscheidende Merkmal wurde 
 Die so gewonnenen Daten wurden über statistischen Methoden analysiert und in eine niedrigdimensionale Repräsentation überführt.
 Der resultierende Klassifikator konnte bei über 75\% der Bewegungen korrekt erkennen, ob diese mit oder ohne Gewichtsweste ausgeführt wurden.
 \end{abstract}
-\newpage
+
+\vfill
+
+\today
+
+}
+%\end{addmargin*}
+\end{titlepage}
 
 \section{Introduction}
 
