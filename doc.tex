@@ -131,11 +131,10 @@ The program is currently available as open source here \cite{csprogram} and can 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=8cm]{programm.jpg}
-	\caption{Screenshot of the program used to record the data.}
+	\includegraphics[width=9cm]{programm.jpg}
+	\caption{Screenshot of the program used to record the data. The top controls are used to replay a recorded motion, pause and reverse it. Also the frames per second can be adjusted. The center screen shows a point representation of the recorded test subjects joints at the current frame. The controls on the left are used to record a test subject by defining the output filename and a button to start and stop the recording.}
 	\label{fig:programm}
 \end{figure}
-
 
 
 \subsection{Processing the Data}
@@ -165,7 +164,7 @@ The fixed nature of the experiment also limited the motion to one that could be 
 	\centering
 	\includegraphics[width=10cm]{Aufbauohnelizenz.png}
 	\caption{Schematics of the arrangement for the recording of our source data.}
-	\label{fig:Aufbauohnelizenz}
+	\label{fig:schematic}
 \end{figure}
 
 
@@ -258,7 +257,7 @@ The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 		\label{fig:approx3}
 \end{figure}
 
-\subsection{Normalisation}
+\subsection{Normalization}
 While jumping there are unwanted side-effects. People can't continuously jump just up and down, but also back- and sidewards. This fact effects our first two eigenvectors. They loose importance in representing the whole movement. So we idealize the movement by removing all changes to the z-axis. The result can be seen in figure \ref{fig:sammel}.
 
 % Was ist mit normalisieren der Hüfte auf x? 
@@ -266,7 +265,7 @@ While jumping there are unwanted side-effects. People can't continuously jump ju
 \begin{figure}
 	\centering
 	\includegraphics[width=15cm]{sammel.png}
-	\caption{Normalisation effect on coefficients (left side without normalisation).}
+	\caption{Normalization effect on coefficients (left side without normalization).}
 	\label{fig:sammel}
 \end{figure}
 
