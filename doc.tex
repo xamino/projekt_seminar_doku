@@ -481,14 +481,15 @@ Using MATLAB as an intermediary between the two formats we take the advantage of
 
 The problem is now solved by the vector based equation: $\vec a \cdot \vec b = \left|\vec a \right| \left|\vec b \right| \cos \phi$.
 
-\begin{lstlisting}[caption=Calculating the angle. TODO: MORE TEXT! Listing should be translated to English!]{Name}
+\begin{lstlisting}[caption=Calculating the angle. TODO: MORE TEXT!]{Name}
 D = dlmread('nameSeilhuepfen0.txt');
 [...]
 
 # right upper arm entry #25 (vector 24x data is already here)
 m46 = (D(ind,17)-D(ind,11))/(D(ind,16)-D(ind,10));
 
-# Vector calculations. Enumeration is from point number from Kinect model
+# Vector calculations. Enumeration is from point number
+#       from Kinect model
 vector46y = D(ind,17)-D(ind,11);
 vevtor46x = D(ind,16)-D(ind,10);
 dotproduct=vector24y*vector46y+vector24x*vector46x;
