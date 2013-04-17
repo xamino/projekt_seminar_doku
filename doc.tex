@@ -413,17 +413,29 @@ It would be interesting to have a closer look to the motionvectors lying on the 
 The points that lie beyond any of the two motionvectors would be exaggerations, either showing a really heavy burdened jumping motion or a very light unburdened motion.
 These points were calculated by building the difference between the two average points (the vector pointing from one of the points to the other) multiplying the result by a freely choosable weight $\alpha \in R$ and adding this to the average of all the motionvectors.
 The most eye-catching feature of the resulting animation was that a highly exaggerated burdenless jumper was jumping much faster than an exaggerated weight-burdened jumper.
-Sadly the difference in speed was so high, that other features almost weren't visible in the animation.
+Unfortunately the difference in speed was so high, that other features almost weren't visible in the animation.
 Therefore we changed the difference vector dividing the entry that contained the frequency by 10.
 In the animation, the exaggerated unburdened jumper was still faster than its burdened equivalent, but the difference in speed was growing slower with an increasing level of exaggeration.
 Other features were therefore observable in the animations.
 The unburdened jumper jumped higher raising its hands far above his head.
-Its average posture also was clearly higher than the burdened jumper whose motions appeared to be small in the vertical direction.
+Its average posture also was clearly higher than the one of the burdened jumper.
 
 \subsection{Synthesizing Using the Classifier}
 
-For computing the TODO: TEXT?
 Before the classifier c was computed, the motionvectors were divided by the standard deviations. These were saved as the vector u to a file.
+Given this vector, the eigenjumpers, a set of coefficients and an average motionvector $m_0$ a motionvector could be reconstructed.
+
+Instead of using one subjects coefficients, the classifier c can be used to synthesize new motionvectors.
+An arbitrary fator $\alpha \in R$ was multiplied with the standard deviation vector u to parameterize the syntesized motion.
+
+A new motionvector was synthesized as follows:
+
+\begin{align}
+	M = m_0 + diag(\alpha \cdot u) \cdot V \cdot c \label{eq:synthesis}
+\end{align}
+
+The newly created motionvector was then used to animate a synthesized motion.
+In the animation an exaggerated weight-burdened jumper appeared to use much more effort to jump than an unburdened jumper.
 
 \section{Visualization}
 
