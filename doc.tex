@@ -493,27 +493,27 @@ Using MATLAB as an intermediary between the two formats we take the advantage of
 
 The problem is now solved by the vector based equation: $\vec a \cdot \vec b = \left|\vec a \right| \left|\vec b \right| \cos \phi$.
 
-\begin{lstlisting}[caption=Calculating the angle. TODO: MORE TEXT! Listing should be translated to English!]{Name}
+\begin{lstlisting}[caption=Calculating the angle. TODO: MORE TEXT!]{Name}
 D = dlmread('nameSeilhuepfen0.txt');
 [...]
 
-# Rechter Oberarm Eintrag Nr.25 (Vektor 24x Daten sind schon vorhanden)
+# right upper arm entry #25 (vector 24x data is already here)
 m46 = (D(ind,17)-D(ind,11))/(D(ind,16)-D(ind,10));
 
-# Vektorenberechnung. Nummerierung erfolgt von Punktnummer 
-# aus Kinectmodells
-Vektor46y = D(ind,17)-D(ind,11);
-Vektor46x = D(ind,16)-D(ind,10);
-skalarprodukt=Vektor24y*Vektor46y+Vektor24x*Vektor46x;
-laengeeins=sqrt(Vektor24y^2 + Vektor24x^2);
-laengezwei=sqrt(Vektor46y^2 + Vektor46x^2); 
-wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
+# Vector calculations. Enumeration is from point number
+#       from Kinect model
+vector46y = D(ind,17)-D(ind,11);
+vevtor46x = D(ind,16)-D(ind,10);
+dotproduct=vector24y*vector46y+vector24x*vector46x;
+lengthOne=sqrt(vector24y^2 + vector24x^2);
+lengthTwo=sqrt(vector46y^2 + vector46x^2); 
+wUpperArmRight = radtodeg(acos(dotproduct/(lengthOne*lengthTwo)));
 \end{lstlisting}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=8cm]{3dRender.PNG}
-	\caption{Result of rendering. TODO: MORE TEXT!}
+	\caption{Result of rendering in Poser. This is a still from the jumping jack motion using our data transformed into the correct format.}
 	\label{fig:3drender}
 \end{figure}
 
