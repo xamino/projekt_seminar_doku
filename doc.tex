@@ -218,7 +218,9 @@ The fitted graph of the example mentioned above can be seen at the bottom of fig
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{1sinHamp.png}
-		\caption{Original dataset (top) and sinusoidal approximation (bottom). TODO: MORE TEXT!}
+		\caption{Original recorded dataset (top) and sinusoidal approximation of coefficients using one sine function (bottom).
+		Comparing the two graphs we can see that the first wave's top curve is approximated inaccurately but also the second wave's irregularity cannot be fitted well.
+		Which both results in a fit that is not optimal.}
 		\label{fig:approx}
 \end{figure}
 
@@ -238,7 +240,10 @@ Here the \emph{rsquare} values are 0.98515 for the first and 0.9366 for the seco
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{2sinHamp.png}
-		\caption{Original dataset (top) and sinusoidal approximation using two overlapping sine functions (bottom). TODO: MORE TEXT!}
+		\caption{Original recorded dataset (top) and sinusoidal approximation of coefficients using two overlapping sine functions (bottom).
+		The approximation of the first wave's top curve is much closer to the original data compared to the usage of only one sine function.
+		But also the second wave's approximation matches the original data very closely.
+		Therefore this is a better model for the jumping jack motion.}
 		\label{fig:approx2}
 \end{figure}
 
@@ -248,7 +253,8 @@ The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{1sinSeil.png}
-		\caption{Original dataset of a skipping motion (top) and its sinusoidal approximation (bottom). TODO: MORE TEXT!}
+		\caption{Original dataset of a rope skipping motion (top) and its sinusoidal approximation (bottom).
+		In contrary to the jumping jack approximation this works very well using only one sine function.}
 		\label{fig:approx3}
 \end{figure}
 
@@ -260,7 +266,9 @@ While jumping there are unwanted side-effects. People can't continuously jump ju
 \begin{figure}
 	\centering
 	\includegraphics[width=15cm]{sammel.png}
-	\caption{Normalization effect on coefficients (left side without normalization). TODO: MORE TEXT!}
+	\caption{Normalization effect on coefficients. The top left graph shows the sinusoidal approximation a recorded motion without any normalization. Here the second eigenvector's coefficients show a linear noncyclic behavior over the length of the recording.
+	Also more eigenvalues of the PCA result are needed to cover most variance.
+	Using normalization the negative effects can be eliminated and the second eigenvector's wave behaves cyclic as we would have expected.}
 	\label{fig:sammel}
 \end{figure}
 
