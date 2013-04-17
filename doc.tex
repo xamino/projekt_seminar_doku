@@ -59,15 +59,12 @@
 
 
 \parbox{140mm}{
-%\begin{abstract}
-% uebersetzen
 {\bfseries\large Abstract}\\
 Building on top of the study "Decomposing biological motion: A framework for analysis and synthesis of human gait patterns." [Troje, Journal of Vision, 2002] an algorithm to represent and analyse biological motion was implemented.
 Herefor a multitude of test subjects were recorded doing jumping motions (jumping jack / rope skipping) using an active depth camera.
 As the to differentiate variable the weight of the subjects was changed for the recording using a weight vest.
 The thus collected data was analysed with a statistical method and transformed into a lower dimensional representation.
 The resulting classifier was capable of correctly recognizing 75\% of the motions, whether these were with or without the additional weight.
-%\end{abstract}
 }
 \vfill
 
@@ -79,49 +76,49 @@ The resulting classifier was capable of correctly recognizing 75\% of the motion
 
 \section{Introduction}
 
-This paper represents a rework of \cite{origin}.
-We analyzed what the authors did and tried the method on a somewhat different study.
-Here we show the documentation to our work, our conclusions, and how our work compares to the original work.
+This paper presents \cite{origin} in a different application domain.
+We analyzed what the authors did and applied the method on a somewhat different study.
+Within the following sections we show the documentation to our work, our conclusions, and how our work compares to the original work.
 
-\section{Overview of Decomposing Biological Motion}
+\section{Biological Motion Decomposition}
 
 This section will briefly highlight interesting and important aspects from the original paper on which our work was based on.
-The general goal of the paper was to implement a system on the computer capable of interpreting biological motion.
+The general goal of the paper was to implement an algorithm capable of interpreting biological motion.
 This was done by recording the walking motion of men and women with a motion capturing system on a treadmill and then putting the data through an algorithm to distinguish between the gender based on the biological motion.
 
 As the recorded data was not insignificant in its size, a principle component analysis was used to decrease the data volume.
 The original authors found that the first four principal components offered sufficient coverage of the data with a value of 98\%.
-Just the standard poses and their principal components however do not represent movement: they must be animated over time.
+Just the poses and their principal components however do not represent movement: they must be animated over time.
 This was done by mapping the values to a sinus function modified by its parameters.
-The data could then be represented in a single, 229 dimensional vector consisting of the three components: the standard poses, the principal components, and the parameters for the sinus function.
+The data could then be represented in a single, 229 dimensional vector consisting of three components: the standard poses, the principal components, and the parameters for the sinus function.
 
 The data from all the walkers was then analyzed by a simple linear comparison algorithm.
-The computer managed to correctly classify 90\% correctly in the best case (dependent on the various different approaches).
+The trained system managed to correctly classify 90\% correctly in the best case (dependent on the various different variations of the approaches).
 This was better than the control group's average.
 
-Finally, the authors used the algorithm backwards to synthesize stylized walkers.
-These can be changed interactively, allowing a quick comparison between the two distinct extremes between the genders and any step between.
+Finally, the authors inverted the algorithm's processing pipeline to synthesize stylized walkers.
+These can be changed interactively, allowing a quick comparison between the two distinct extremes between the genders and any step in between.
 
-\section{Our Work}
+\section{Modifications to the Original}
 
-Now we'll take a look at the work we did.
+In this section we'll have a closer look on our modifications to the original work.
 Our intend was to recreate the original work from ground up with slightly changed parameters.
-This meant that we had to do a few things differently, most notably the hardware used to record the motion data.
+This meant that we had to do a few things differently, most notably because of the hardware used to record the motion data.
 
 The hardware used restricted us to a more simple motion to capture – basically, it had to be 2D and without any 3D overlaps.
 To allow for a higher yield of subjects, we refrained from trying to differentiate gender and instead choose to differentiate between doing the motion with and without weights.
 Various experiments with the coverage of the used sensor narrowed the motion we would be using down to 2: jumping jack and rope skipping.
 
 All software used was written by us, based on the algorithms outlined in the original paper.
-Basically we created 2 software pieces: one for recording the motion from the sensor and one for working with the data (although that is more a workflow with many scripts than a complete software).
+Basically we created 2 programs: one for recording the motion from the sensor and one for processing the data (although that is more a workflow with many scripts than a complete software).
 
 \subsection{Equipment}
 
 For our recording we used the "Kinect for Windows"\texttrademark \cite{kinect}, connected to a computer running "Microsoft Windows 7"\textregistered \ via USB.
 The Kinect is mounted on a tripod to allow correct positioning.
-The weights were applied with a weight-vest with a weight of 5 kilograms.
+Different weighting conditions for the same subject were achieved with a weight-vest with a weight of 5 kilograms.
 For the alternate motion, skipping, we also provided a rope.
-We used normal tape to mark positions on the floor so that all recordings were made with the same measurements.
+We used normal tape to mark positions on the floor so that all recordings were made within a controlled setup.
 
 \subsection{Recording the Data}
 
@@ -139,7 +136,7 @@ The program is currently available as open source here \cite{csprogram} and can 
 
 \subsection{Processing the Data}
 
-The other software piece consisted of a multitude of MATLAB\cite{matlabprograms} scripts that were run in sequence on the files to generate our outputs.
+The other software piece consisted of a multitude of MATLAB \cite{matlabprograms} scripts that were run in sequence on the files to generate our outputs.
 Ideally, this should be packaged into a single program too, but we considered the gain to be too small compared to the amount of work required for our project.
 Our proposal for this is a node based program where one can manipulate the flow of the data through various external MATLAB scripts; the nodes would be the scripts and the connecting vectors the data moving between them\footnote{An example for the functionality can be found here: \url{http://www.blender.org/development/release-logs/blender-242/blender-composite-nodes/}}.
 Such a program could be a future work with a wide array of alternate uses beyond this project.
@@ -149,8 +146,9 @@ The chart should clear up the flow of data in our project from the recording to 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=14cm]{matlabaufbau.png}
-	\caption{Overview of the workflow of the data.}
+	\includegraphics[width=16cm]{matlabaufbau.png}
+	% Bei der caption kann ich kein \CS verwenden, also habe ich C-sharp geschrieben.
+	\caption{Overview of the workflow of the data. The data enters the workflow at the C-sharp node at the top, written into a text file labeled according to the parameters of the recording. Emboldened nodes mark the MATLAB scripts that processed the raw data into more refined data. Note that the output data was always saved as text between steps too. This allowed a very flexible workflow. For creating the pictures and videos, motionAnalysis.m was used. The other branch of nodes is used to synthesize data.}
 	\label{fig:workflow}
 \end{figure}
 
@@ -158,16 +156,14 @@ The chart should clear up the flow of data in our project from the recording to 
 
 Figure \ref{fig:schematic} shows the schematics of the arrangement of the Kinect for the recordings.
 The way the Kinect records skeletons proved to be a strong limiting factor in selecting which motions to record as the depth-perception is comparatively poor.
-The fixed nature of the experiment also limited the motion to one that could be done within a small area, which disclosed for example any form of walking or running.
+The fixed nature of the experiment also limited the motion to one that could be done within a small area, which excludes for example any form of walking or running.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=10cm]{Aufbauohnelizenz.png}
-	\caption{Schematics of the arrangement for the recording of our source data.}
+	\caption{Schematics of the arrangement for the recording of our source data. On top of the pole to the left the Kinect is mounted. The dashed lines show the field of view. The mannequin shows where the subjects were asked to perform so that the sensor could record under ideal conditions.}
 	\label{fig:schematic}
 \end{figure}
-
-
 
 \subsection{Recording Subjects}
 
@@ -175,14 +171,14 @@ Once everything was in place and we were relatively comfortable with our softwar
 Each subject had to do either or both of the motions with and without the weights on them.
 We thus recorded 19 data sets of the jumping jack and 16 data sets of the rope skipping.
 Each data set consists of one recording with the weight and one without.
-The order in which the subjects either started or finished with the weight was equally divided among the group to minimize effects of fatigue.
+The order in which the subjects either started or finished with the weight was equally distributed among the group to minimize effects of fatigue.
 
 As the Kinect senses the 3D spatial information via infrared, we initially had trouble when test subjects wore dark clothing.
 This was due to the dark clothing absorbing the infrared, thus becoming invisible to the Kinect.
 To solve this problem, we had all subjects that wore dark clothing wear a blue overall over their clothes to assure a steady recording.
 
 For the actual recording, we first explained the procedure to our subjects.
-This was done so that the motions would be the same between all subjects.
+This was done to ensure that all captured movement data would generally have the same form of the motion.
 We then had the subjects start with the motion and then pressed record.
 For the recording of jumping jacks, our software automatically recognized the start position and counted 10 cycles of jumping jacks.
 These 10 cycles were then saved in a text file consisting of the 3D vectors of the 16 skeleton points over the frames in time.
@@ -208,9 +204,8 @@ The origin of this coordinate system is the average of all postures, which we ar
 The principal components are the eigenvectors of the covariance matrix of the skeleton data set.
 Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
 
-% \begin{Andi}
 \subsection{Sinusoidal--Approximation of Coefficients}
-A graphical representation of an \emph{eigenposture} for a jumping jack motion can be seen on top of figure \ref{fig:approx}.
+A graphical representation of an \emph{eigenposture} for a jumping jack motion can be seen at the top of figure \ref{fig:approx}.
 Here the blue curve represents the first coefficient of the \emph{eigenposture} and the green curve the second coefficient.
 Apparently this graph looks similar to a sinusoidal graph.
 The reason for this characteristic is that our jumping motions are cyclic motions.
@@ -223,11 +218,11 @@ The fitted graph of the example mentioned above can be seen at the bottom of fig
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{1sinHamp.png}
-		\caption{Original dataset (top) and sinusoidal approximation (bottom).}
+		\caption{Original dataset (top) and sinusoidal approximation (bottom). TODO: MORE TEXT!}
 		\label{fig:approx}
 \end{figure}
 
-MATLAB's \emph{fit} function also outputs the goodness of the fit in form of the square of the correlation ()\emph{rsquare}).
+MATLAB's \emph{fit} function also outputs the goodness of the fit in form of the square of the correlation (\emph{rsquare}).
 Here values close to zero mean a bad fit and values close to one a good fit.
 A value of one would be an exact fit with no information lost.
 The goodness of the fit shown in figure \ref{fig:approx} is 0.90225 for the first and 0.80946 for the second coefficient.
@@ -243,17 +238,17 @@ Here the \emph{rsquare} values are 0.98515 for the first and 0.9366 for the seco
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{2sinHamp.png}
-		\caption{Original dataset (top) and sinusoidal approximation using two overlapping sine functions (bottom).}
+		\caption{Original dataset (top) and sinusoidal approximation using two overlapping sine functions (bottom). TODO: MORE TEXT!}
 		\label{fig:approx2}
 \end{figure}
 
-The skipping motion, as seen in figure \ref{fig:approx3}, however does not have this characteristic so here only one sine function was used for our further work.
+The rope skipping motion, as seen in figure \ref{fig:approx3}, however does not have this characteristic so here only one sine function was used for our further work.
 The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{1sinSeil.png}
-		\caption{Original dataset of a skipping motion (top) and its sinusoidal approximation (bottom).}
+		\caption{Original dataset of a skipping motion (top) and its sinusoidal approximation (bottom). TODO: MORE TEXT!}
 		\label{fig:approx3}
 \end{figure}
 
@@ -265,7 +260,7 @@ While jumping there are unwanted side-effects. People can't continuously jump ju
 \begin{figure}
 	\centering
 	\includegraphics[width=15cm]{sammel.png}
-	\caption{Normalization effect on coefficients (left side without normalization).}
+	\caption{Normalization effect on coefficients (left side without normalization). TODO: MORE TEXT!}
 	\label{fig:sammel}
 \end{figure}
 
@@ -275,7 +270,7 @@ While jumping there are unwanted side-effects. People can't continuously jump ju
 
 \subsection{Creation of Motion Vectors}
 To create a motion vector, which is to describe the full motion cycle using our sinusoidal approximation, we need the average posture created earlier and the first two \emph{eigenpostures} including the sinusoidal approximation of their coefficients.
-However due to the normalisation mentioned earlier we don't need all three positional values of our skeleton points, but can ignore X and Z values for the hip.
+However due to the normalization mentioned earlier we don't need all three positional values of our skeleton points, but can ignore X and Z values for the hip.
 Therefore we have three positional values X,Y,Z for 15 skeleton points and only one additional for the hip resulting in 48 values for each posture.
 To describe the sinusoidal approximation we use different setups for our four options.
 
@@ -296,9 +291,7 @@ This results in a 143 dimensional motion vector for the rope skipping motion.
 
 % TODO Testpersonen, wohin? Von Tamino: ist doch oben...? Oder wird hier was anderes gemeint? % die Folie "Testpersonen" mit den geeigneten personen pro option -> grund für die 2+1 geschichte
 
-
-% \end{Andi}
-\section{Classification}
+\section{Results}
 
 For now each jumping motion is represented by a 141/143/144/146-dimensional motionvector.
 Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion.
@@ -320,7 +313,8 @@ The result of this second PCA is another set of eigenvectors, which we are going
 Given the eigenjumpers and the average motionvector one can reconstruct any motionvector by using the coefficients that belong to the motionvector. Exactly as with the first PCA this is achieved by adding up the average motionvector to the sum of the products of each eigenjumper and its corresponding coefficient.
 For this reason the coefficients that belong to one subject's data are another representation of this subject's jumping motion.
 The matrix K contains these coefficients. Each row of K consists of one subject's jumping motion. In the following we will use $k_{i}$ as a name for the i-th row of K, being the coefficients of the i-th jumping motion.
-Due to the PCA the entries in the beginning of each row contribute the most to the representation of the jumping motion, whereas the entries in the end of the row contain little information and might be omitted. As we will see later the choice of how many of the coefficients we are going to use for classification is an important one, because too few coeffiecients might not be an adequate representation of the motion, otherwise too many coefficients will describe each motion to specifically and therefore might be difficult too classify.
+Due to the PCA the entries in the beginning of each row contribute the most to the representation of the jumping motion, whereas the entries in the end of the row contain little information and might be omitted.
+As we will see later the choice of how many of the coefficients we are going to use for classification is an important one, because too few coeffiecients might not be an adequate representation of the motion, while too many coefficients will describe each motion too specifically and therefore might be difficult to classify.
 
 \subsection{Creating the Classifier c}
 
@@ -328,33 +322,33 @@ To create the classifier, a resultvector r was defined containing one entry for 
 \begin{align}
 	K \cdot c=r \label{eq:cEquation}
 \end{align} 
-(Note: This is different from the equation in \cite{origin}, because there the coefficients of one walking motion were contained in one column of K, rather than in one row as K was defined here.)
+(Note: This is different from the equation in \cite{origin}, because there the coefficients of one walking motion were contained in one column of K, rather than in one row as K is defined here.)
 
-The number of coefficients was more than 140, which is far more than the number of recorded jumping motions. This means, that the linear equation system \ref{eq:cEquation} cannot be solved uniquely. There is an infinity number of possible solutions of c. Since the most important entries of c would be the ones in the beginning (because they will correspond to the more important coefficients in K), a solution for c was chosen, in which as much as possible of the entries in the end were set 0. This means only the entries in the beginning of c contained valuable information.
+The number of coefficients was more than 140, which is far more than the number of recorded jumping motions. This means, that the linear equation system \ref{eq:cEquation} cannot be solved uniquely. There is an infinity number of possible solutions of c. Since the most important entries of c would be the ones in the beginning (because they will correspond to the more important coefficients in K), a solution for c was chosen, in which as much as possible of the entries in the end were set 0. This means only the entries at the beginning of c contained valuable information.
 
 \subsection{Classifying Jumping Motions}
 
 Any of the recorded jumpin motions can be classified by building the dot product of the corresponding coefficients and the classifier c.
 Due to the defintion of c, the result of this dot product is either 1 or -1, indicating whether the jumping motion was performed with or without the weight-vest.
-As mentioned earlier, the most important information of c is contained in the entries in the beginning.
+As mentioned earlier, most of the information about a motion is contained in the entries at the beginning.
 It is now examined how well the classifier works if it is not used completely, but rather only the first n entries of c and $k_{i}$ were used to determine whether the weight-vest influenced the i-th jumping motion or not.
 Instead of the dot product, the term
 \begin{align}
-	\sum\limits_{j=1}^n c_{j} k_{i,j} \label{eq:dotproduct}
+	D=\sum\limits_{j=1}^n c_{j} k_{i,j} \label{eq:dotproduct}
 \end{align} 
-was applied. If the result was positive, it was classified as weight-burdened motion, otherwise, it was classified as burdenless motion.
+was applied. If the result was positive, it was classified as weight-burdened motion, otherwise, it was classified as unburdened motion.
 Naturally, for small n the error rate was quite high getting smaller for increasing n.
 One can easily comprehend, that there are no more misclassifications when n reaches the number of jumping motions, because this is the number of nonzero entries in c, all of the following entries are 0, anyways.
-For an n equal to or higher than the number of recorded motions, the result of the term \ref{eq:dotproduct} is therefore always 1 or -1, because the entries after the n-th entry don't contribute anything to the sum.
+For an n equal to or higher than the number of recorded motions, the result of the equation \ref{eq:dotproduct} is therefore always 1 or -1, because the entries after the n-th entry don't contribute anything to the sum.
 For an n smaller than the number of motions, the result of the sum might be different than 1 or -1, but the sign might still be sufficient to classify the motion correctly.
 
-The blue curves in figure \ref{fig:classification} show the percentaged number of misclassifications depending on n, the number of used entries of c and $k_{i}$. As you can see, there usually is an n smaller than the number of motions for which is already high enough to classify all motions correctly.
+The blue curves in figure \ref{fig:classification} show the percentage number of misclassifications depending on n, the number of used entries of c and $k_{i}$. As you can see, there usually is an n smaller than the number of motions for which is already high enough to classify all motions correctly.
 
 \begin{figure}
 		\centering
 		\includegraphics[width=\textwidth]{klassifikation.png}
 		\caption{Classification errors depending on the number of used principal components.
-		The blue curve shows the number of misclassifications using the universal classifier that was trained with all the motionvectors, the red curve depicts the misclassified motionvectors using the take-one-out-strategy.
+		The blue curve shows the number of misclassifications using the universal classifier that was trained with all the motionvectors, the red curve depicts the misclassified motionvectors using the leave-one-out-strategy.
 		The following types of motionvectors were classified here:
 		a: jumping jack using one sine wave for both eigenpostures
 		b: jumping jack using the sum of two sine waves for both eigenpostures
@@ -368,20 +362,34 @@ The blue curves in figure \ref{fig:classification} show the percentaged number o
 		\label{fig:classification}
 \end{figure}
 
-\subsection{The Take-One-Out-Strategy}
+\subsection{The Leave-One-Out-Strategy}
 
 For now we only had one classifier c trained by all the recorded motions.
 For a sufficiently large number of used principal components this classifier can classify all of the motions correctly.
 A far more interesting question is, how well the classifier will work for a new jumping motion that wasn't used to train it.
-For this reason \cite{origin} used a take-one-out-strategy, taking one out of the set of recorded walkers and computing the classifier c for the remaining walkers. In our work we took out one subject's two motionvectors (one of them weight-burdened, the other one burdenless) and classified both of them using the classifier trained by the other motionvectors. The classification was determined by projecting the motionvectors that were to be classified onto the eigenjumpers of the other motionvectors and the term \ref{eq:dotproduct} was applied to both of them. This was repeated for all subject's motionvectors, until all of them have been taken out and were classified. The number of misclassifications is shown as the red curves in figure \ref{fig:classification} as a function of the number of used principal components.
+For this reason \cite{origin} used a leave-one-out-strategy, taking one out of the set of recorded walkers and computing the classifier c for the remaining walkers.
+In our work we took out one subject's two motionvectors (one of them weight-burdened, the other one burdenless) and classified both of them using the classifier trained by the other motionvectors.
+The classification was determined by projecting the motionvectors that were to be classified onto the eigenjumpers of the other motionvectors, applying the equation \ref{eq:dotproduct} to both of them.
+This was repeated for all subject's motionvectors, until all of them have been taken out and were classified.
+The number of misclassifications is shown as the red curves in figure \ref{fig:classification} as a function of the number of used principal components.
 
-Figure \ref{fig:classification} (a) shows the misclassifications using the 141-dimensional motionvector jumping jack representation that uses only one sine wave to represent the coefficients of each eigenposture. At the minimum about 30\% of the recorded motions were misclassified using about 24 principal components. This was improved slightly to 27\% misclassifications in figure \ref{fig:classification} (b) using the 146-dimensional jumping jack motionvectors that utilized the sum of two sine waves to represent the coefficients of each eigenposture. Even though the 144-dimensional jumping jack representation that uses two cumulative sine waves for the first eigenposture and only one sine wave for the second eigenposture is a worse reprensentation than the 146-dimensional one with two sine waves for each eigenposture, the former one has a better misclassification rate of less than 25\%, because more of the recorded jumping jack motions were applicable to this 144-dimensional representation. This is shown in figure \ref{fig:classification} (c). The minimum of about 24\% is achievied by using about 17 principal components.
+Figure \ref{fig:classification} (a) shows the misclassifications using the 141-dimensional motionvector jumping jack representation that uses only one sine wave to represent the coefficients of each eigenposture.
+At the minimum about 30\% of the recorded motions were misclassified using about 24 principal components.
+This was improved slightly to 27\% misclassifications in figure \ref{fig:classification} (b) using the 146-dimensional jumping jack motionvectors that utilized the sum of two sine waves to represent the coefficients of each eigenposture.
+Even though the 144-dimensional jumping jack representation that uses two cumulative sine waves for the first eigenposture and only one sine wave for the second eigenposture is a worse representation than the 146-dimensional one with two sine waves for each eigenposture, the former one has a better misclassification rate of less than 25\%, because more of the recorded jumping jack motions were applicable to this 144-dimensional representation.
+This is shown in figure \ref{fig:classification} (c).
+The minimum of about 24\% is achievied by using about 17 principal components.
 
 Rope skipping in figure \ref{fig:classification} (g) had a minimum error rate of less than one third using 19 principal components.
 
 \subsection{Classification Using Only Parts of the Motionvectors}
 
-The curves in figure \ref{fig:classification} (d), (e), (f), (h) and (i) show the error rate of jumping motions using only parts of the motionvector. (d), (e) and (f) show the classification of jumping jack, (h) and (i) rope skipping. In (d) and (h) the first 46 entries of the motionvector were used being the average posture, that means the structural data. In \cite{origin} it turned out, that this kind of data wasn't essential for gender-classification. We experienced the same with the rope skipping motion: weight-burden classification didn't work well. For the jumping jack, however, the minimum classification error using only the average posture was clearly smaller than 30\%. A possible explanation for this is that the average posture contains information about a subject's weight-burden, because the weight-vest would push a subject down to the floor, influencing its posture.
+The curves in figure \ref{fig:classification} (d), (e), (f), (h) and (i) show the error rate of jumping motions using only parts of the motionvector. (d), (e) and (f) show the classification of jumping jack, (h) and (i) rope skipping.
+In (d) and (h) the first 46 entries of the motionvector were used being the average posture, that means the structural data.
+In \cite{origin} it turned out, that this kind of data wasn't essential for gender-classification.
+We experienced the same with the rope skipping motion: weight-burden classification didn't work well.
+For the jumping jack, however, the minimum classification error using only the average posture was clearly smaller than 30\%.
+A possible explanation for this is that the average posture contains information about a subject's weight-burden, because the weight-vest would push a subject down to the floor, influencing its posture.
 
 (e) shows the jumping jack (one sine wave for both eigenpostures) classification using all the motionvector's entries except the average posture being the dynamic information of the motionvector. The curves show, that this doesn't work well for classification.
 
