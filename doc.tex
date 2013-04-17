@@ -60,7 +60,7 @@
 
 \parbox{140mm}{
 {\bfseries\large Abstract}\\
-Building on top of the study "Decomposing biological motion: A framework for analysis and synthesis of human gait patterns." [Troje, Journal of Vision, 2002] an algorithm to represent and analyse biological motion was implemented.
+Building on top of the study "Decomposing biological motion: A framework for analysis and synthesis of human gait patterns." [Troje, Journal of Vision, 2002] an algorithm to represent and analyze biological motion was implemented.
 Herefor a multitude of test subjects were recorded doing jumping motions (jumping jack / rope skipping) using an active depth camera.
 As the to differentiate variable the weight of the subjects was changed for the recording using a weight vest.
 The thus collected data was analysed with a statistical method and transformed into a lower dimensional representation.
@@ -204,6 +204,9 @@ The origin of this coordinate system is the average of all postures, which we ar
 The principal components are the eigenvectors of the covariance matrix of the skeleton data set.
 Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
 
+% Todo: PCA Bild mit Erklärung
+% Todo: Wie kommt man von der PCA auf die Coeffizienten für Sinusdarstellung (mit Formel)
+
 \subsection{Sinusoidal--Approximation of Coefficients}
 A graphical representation of an \emph{eigenposture} for a jumping jack motion can be seen at the top of figure \ref{fig:approx}.
 Here the blue curve represents the first coefficient of the \emph{eigenposture} and the green curve the second coefficient.
@@ -268,13 +271,27 @@ While jumping there are unwanted side-effects. People can't continuously jump ju
 	\includegraphics[width=15cm]{sammel.png}
 	\caption{Normalization effect on coefficients. The top left graph shows the sinusoidal approximation a recorded motion without any normalization. Here the second eigenvector's coefficients show a linear noncyclic behavior over the length of the recording.
 	Also more eigenvalues of the PCA result are needed to cover most variance.
-	Using normalization the negative effects can be eliminated and the second eigenvector's wave behaves cyclic as we would have expected.}
+	Using normalization the negative side-effects can be eliminated and the second eigenvector's wave behaves cyclic as we would have expected.}
 	\label{fig:sammel}
 \end{figure}
 
 \subsection{Comparison of original and after-processing-motions}
 
+\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{1sinHamp.png}
+		\caption{Original recorded dataset (top) and sinusoidal approximation of coefficients using one sine function (bottom).
+		Comparing the two graphs we can see that the first wave's top curve is approximated inaccurately but also the second wave's irregularity cannot be fitted well.
+		Which both results in a fit that is not optimal.}
+		\label{fig:orig_pca}
+\end{figure}
+
 % TODO Animationen vergleichen / in pdf einbinden?
+Having documented how much variance is lost using only the first two eigenvalues of the PCA and fitting our coefficients with a sine function, we now take a look at how much these errors affect the actual motion.
+As an example we look at the jumping jack motion in a two dimensional point representation.
+The step from the original data to using the eigenvalues from the PCA is shown in figure \ref{fig:orig_pca} at the top.
+The next step from the PCA to the fit is shown below and a comparison between the original data and the final data is show at the bottom of the figure.
+Looking at these comparison figures in an animated form the motion the lack of information can be seen for example in delayed hand and foot joints. Also the arms ... TODO
 
 \subsection{Creation of Motion Vectors}
 To create a motion vector, which is to describe the full motion cycle using our sinusoidal approximation, we need the average posture created earlier and the first two \emph{eigenpostures} including the sinusoidal approximation of their coefficients.
@@ -305,7 +322,7 @@ For now each jumping motion is represented by a 141/143/144/146-dimensional moti
 Earlier we used PCA to reduce the dimensionality of all 48-dimensional representations of skeleton postures of one single jumping motion.
 Now we are going to do the same with all the 141/143/144/146-dimensional representations of the complete jumping motions.
 
-\subsection{Using Standard Deviations to Normalize Motionvectors}
+\subsection{Using Standard Deviations to normalize Motionvectors}
 
 However this time the dissimilarity of the data in the motionvectors might affect how well the PCA will work.
 The first PCA's input were 48-dimensional postures where each of the 48 entries was a distance describing one dimension of the three-dimensional position of one joint.
