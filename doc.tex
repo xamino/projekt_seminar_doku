@@ -385,18 +385,20 @@ Rope skipping in figure \ref{fig:classification} (g) had a minimum error rate of
 \subsection{Classification Using Only Parts of the Motionvectors}
 
 The curves in figure \ref{fig:classification} (d), (e), (f), (h) and (i) show the error rate of jumping motions using only parts of the motionvector. (d), (e) and (f) show the classification of jumping jack, (h) and (i) rope skipping.
-In (d) and (h) the first 46 entries of the motionvector were used being the average posture, that means the structural data.
+In (d) and (h) the first 46 entries, the average postures, of the motionvector were used: that means the structural data of the motionvector.
 In \cite{origin} it turned out, that this kind of data wasn't essential for gender-classification.
 We experienced the same with the rope skipping motion: weight-burden classification didn't work well.
 For the jumping jack, however, the minimum classification error using only the average posture was clearly smaller than 30\%.
 A possible explanation for this is that the average posture contains information about a subject's weight-burden, because the weight-vest would push a subject down to the floor, influencing its posture.
 
-(e) shows the jumping jack (one sine wave for both eigenpostures) classification using all the motionvector's entries except the average posture being the dynamic information of the motionvector. The curves show, that this doesn't work well for classification.
+(e) shows the jumping jack (one sine wave for both eigenpostures) classification using all the motionvector's entries except the average posture being the dynamic information of the motionvector.
+The curves show, that this doesn't work well for classification.
 
-In \cite{origin} the best result for classification was achieved using the first three eigenpostures. In (f) and (i) anything but the first two eigenpostures were used for classification resulting in a minimum error of about 22\% each. This is so far the best result.
+In \cite{origin} the best result for classification was achieved using the first three eigenpostures.
+In (f) and (i) everything but the first two eigenpostures were used for classification resulting in a minimum error of about 22\% each.
+This is so far the best result.
 
 We see that for rope skipping using only the two eigenpostures seems to work clearly better than using the complete motionvector. For jumping jack the difference of minimum misclassifications between (i) and (c) is really small. Further studies would be necessary to determine which method works better.
-
 
 \section{Synthesizing of Jumping Motions}
 
@@ -405,24 +407,25 @@ Jumping patterns can therefore be synthesized, by creating new motionvectors.
 
 \subsection{Difference Vector Synthesizing}
 
-A simple, intuitive way to do so is to calculate the average motionvector of weight-burdened motionvectors and the one of the burdenless motions (using motionvectors that weren't divided by the standard deviations first).
-These average motionvectors can be seen as two points in the 141/143/144/146-dimensional space. It would be interesting to have a closer look to the motionvectors lying on the straight line defined by these two points.
-The points that lie beyond any of the two motionvectors would be exaggerations, either showing a really heavy burdened jumping motion or a very light burdenless motion.
+A simple, intuitive way to do so is to calculate the average motionvector of weight-burdened motionvectors and the one of the unburdened motions (using motionvectors that weren't divided by the standard deviations first).
+These average motionvectors can be seen as two points in the 141/143/144/146-dimensional space.
+It would be interesting to have a closer look to the motionvectors lying on the straight line defined by these two points.
+The points that lie beyond any of the two motionvectors would be exaggerations, either showing a really heavy burdened jumping motion or a very light unburdened motion.
 These points were calculated by building the difference between the two average points (the vector pointing from one of the points to the other) multiplying the result by a freely choosable weight $\alpha \in R$ and adding this to the average of all the motionvectors.
-The most eye-catching feature of the resulting animation was, that a highly exaggerated burdenless jumper was jumping much faster than an exaggerated weight-burdened jumper.
+The most eye-catching feature of the resulting animation was that a highly exaggerated burdenless jumper was jumping much faster than an exaggerated weight-burdened jumper.
 Sadly the difference in speed was so high, that other features almost weren't visible in the animation.
 Therefore we changed the difference vector dividing the entry that contained the frequency by 10.
 In the animation, the exaggerated unburdened jumper was still faster than its burdened equivalent, but the difference in speed was growing slower with an increasing level of exaggeration.
 Other features were therefore observable in the animations.
 The unburdened jumper jumped higher raising its hands far above his head.
-Its average posture also was clearly higher than the burdened jumper whose motions appeared to be rather vertical.
+Its average posture also was clearly higher than the burdened jumper whose motions appeared to be small in the vertical direction.
 
 \subsection{Synthesizing Using the Classifier}
 
-For computing the 
+For computing the TODO: TEXT?
 Before the classifier c was computed, the motionvectors were divided by the standard deviations. These were saved as the vector u to a file.
 
-\section{Visualisation}
+\section{Visualization}
 
 This section is independent from the rest of the paper as the analytical methods don't matter.
 Our intent is to show the captured points of the skeleton in an representative 3D Model.
@@ -430,23 +433,23 @@ Our intent is to show the captured points of the skeleton in an representative 3
 \subsection{Absolute vs. Relative Values}
 
 As seen in the description of storing points in a ".txt" file the Kinect uses absolute values to represent the skeleton  - which is absolutely useful, because otherwise it couldn't detect different lengths in body parts.
-Instead it would had to map the measured values on a defined body model.
+Instead it would have to map the measured values onto a defined body model.
 This procedure would cause inaccuracy.
 While animating a defined model in the opposite you can't just easily scale single body parts to adjust the proportions.
-This problem needs as a solution a format invariant to scaling.
+This problem requires a solution in a format invariant to scaling.
 
 \subsection{The .bvh File}
 
-The software used for testing the following part is Poser 9 from SmithMicro.\footnote{http://www.software3d.de/figurendesign/smithmicro-poser-9.html}
-A .bvh file is made up of two parts: The bodystructure and the frames.
-The bodystructure defines the relationship between each bodypart.
+The software used for testing the following part is SmithMicro's Poser 9.\footnote{http://www.software3d.de/figurendesign/smithmicro-poser-9.html}
+A .bvh file is made up of two parts: The body structure and the frames.
+The body structure defines the relationship between each body part.
 As one might see in Listing 1 this structure is build hierarchical.
 Each joint is represented by a name and the connection to its successors.
 Changing the value in a joint affects all the successors. 
-The standardpose (all angles in between 0) is the so called T-Pose.
+The standard pose (all angles in between 0) is the so called T-Pose.
 You can see the model standing with parallel feet looking straight forward and the arms are bend 90 degrees relative to the body.
 
-\begin{lstlisting}[caption=.bvh Connected Structure]{Name}
+\begin{lstlisting}[caption=.bvh Connected Structure. TODO: MORE TEXT!]{Name}
 JOINT lCollar
 {
 		OFFSET	1.858774 10.237258 -1.915852
@@ -463,7 +466,7 @@ There we define the joint-angles.
 Really useful for this aspect of the project was the similarity between the recorded ".txt" file and the second part of the ".bvh".
 Therefore we could calculate the absolute positions in a row from the .txt-file to angles and replace the current lines in the .bvh by the ones generated by a MATLAB script which will be shown in the following section.
 
-\begin{lstlisting}[caption=Motionpart of .bvh]{Name}
+\begin{lstlisting}[caption=Motionpart of .bvh. TODO: MORE TEXT!]{Name}
 MOTION
 Frames:     160
 Frame Time: 1                
@@ -478,7 +481,7 @@ Using MATLAB as an intermediary between the two formats we take the advantage of
 
 The problem is now solved by the vector based equation: $\vec a \cdot \vec b = \left|\vec a \right| \left|\vec b \right| \cos \phi$.
 
-\begin{lstlisting}[caption=Calculating the angle]{Name}
+\begin{lstlisting}[caption=Calculating the angle. TODO: MORE TEXT! Listing should be translated to English!]{Name}
 D = dlmread('nameSeilhuepfen0.txt');
 [...]
 
@@ -498,11 +501,9 @@ wOberarm_rechts = radtodeg(acos(skalarprodukt/(laengeeins*laengezwei)));
 \begin{figure}
 	\centering
 	\includegraphics[width=8cm]{3dRender.PNG}
-	\caption{Result of rendering.}
+	\caption{Result of rendering. TODO: MORE TEXT!}
 	\label{fig:3drender}
 \end{figure}
-
-
 
 \newpage
 \bibliography{doc}
