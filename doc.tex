@@ -20,7 +20,7 @@
 \usepackage{hyperref}
 \usepackage{amsmath}
 \bibliographystyle{alpha}
-
+\usepackage{multirow}
 
 % Now let us define a few shortcuts:
 % Correct sign for C#:
@@ -279,19 +279,26 @@ While jumping there are unwanted side-effects. People can't continuously jump ju
 
 \begin{figure}
 		\centering
-		\includegraphics[width=\textwidth]{1sinHamp.png}
-		\caption{Original recorded dataset (top) and sinusoidal approximation of coefficients using one sine function (bottom).
-		Comparing the two graphs we can see that the first wave's top curve is approximated inaccurately but also the second wave's irregularity cannot be fitted well.
-		Which both results in a fit that is not optimal.}
+		\includegraphics[height=0.3\textheight]{comparison_Original_PCA.png}
+		\includegraphics[height=0.3\textheight]{comparison_PCA_Fit.png}
+		\includegraphics[height=0.3\textheight]{comparison_alles.png}
+		\caption{Recorded data in comparison with the data after doing a PCA (Top).
+		The visible loss of information is minimal here.
+		The center figure shows the comparison of the PCA data and the data after doing the sinusoidal fit.
+		Here there is a visible difference to recognizable which can be seen more clearly comparing the original with the final data (Bottom).
+		However the motion itself still looks very much like the recorded one and the loss of information is acceptable.
+		}
 		\label{fig:orig_pca}
 \end{figure}
 
-% TODO Animationen vergleichen / in pdf einbinden?
 Having documented how much variance is lost using only the first two eigenvalues of the PCA and fitting our coefficients with a sine function, we now take a look at how much these errors affect the actual motion.
 As an example we look at the jumping jack motion in a two dimensional point representation.
 The step from the original data to using the eigenvalues from the PCA is shown in figure \ref{fig:orig_pca} at the top.
 The next step from the PCA to the fit is shown below and a comparison between the original data and the final data is show at the bottom of the figure.
-Looking at these comparison figures in an animated form the motion the lack of information can be seen for example in delayed hand and foot joints. Also the arms ... TODO
+Looking at these comparison figures in an animated form the lack of information can be seen for example in delayed hand and foot joints.
+Another cause for this kind of error is the fact that test subjects cannot jump in the very same way over multiple cycles resulting in small variances when fitting the motion with a sine function.
+In summary the loss of information coming from the PCA and fit has minimal impact in the visual representation and recognizability of the motion and thus is acceptable for our cause.
+
 
 \subsection{Creation of Motion Vectors}
 To create a motion vector, which is to describe the full motion cycle using our sinusoidal approximation, we need the average posture created earlier and the first two \emph{eigenpostures} including the sinusoidal approximation of their coefficients.
@@ -308,13 +315,34 @@ This results in a 146 dimensional motion vector.
 
 When using two overlapping sine waves for the first and one sine wave for the second \emph{eigenposture} on the jumping jack motion, we need to track the three wave's amplitudes the frequency and two phases relative to the first waves's phase.
 This results in a 144 dimensional motion vector.
+The reason for using the extra model is explained in section \ref{sec:testsubjects}.
 
-For our rope skipping motion we need the two amplitudes but also two frequencies as there is no recognisable pattern in the waves.
+For our rope skipping motion we need the two amplitudes but also two frequencies as there is no recognizable pattern in the waves.
 It appears to be a multiple of the first frequency for some test subjects but not always the double.
 Also one phase is needed for the second wave relative to the first one.
 This results in a 143 dimensional motion vector for the rope skipping motion.
 
-% TODO Testpersonen, wohin? Von Tamino: ist doch oben...? Oder wird hier was anderes gemeint? % die Folie "Testpersonen" mit den geeigneten personen pro option -> grund für die 2+1 geschichte
+\subsection{Test Subjects}
+\label{sec:testsubjects}
+Having created models for our motions we checked if these models work for all our recorded test subjects or if there occur any anomalies.
+The result is the following table .
+
+\begin{center}
+\begin{tabular}{l|l|c|c}
+Motion & Sine Waves & \# fitting test subjects & \# total test subjects \\
+\hline
+\multirow{3}{*}{Jumping Jack} & 1 per EV & 18 & \multirow{3}{*}{19} \\ \cline{2-3}
+ & 2 for 1. EV, 1 for 2. EV  & 17 \\ \cline{2-3}
+ & 2 per EV & 13 \\ \cline{2-3}
+\hline
+Rope Skipping & 1 sine per EV & 16 & 16 \\
+\end{tabular}
+\end{center}
+
+Not fitting means that for instance a frequency was not a multiple of the base frequency and thus could not be represented by the specific model.
+So for our improved approximation using two overlapping sine waves for the jumping jack motion we could not represent six of the 19 test subjects.
+In an attempt to get a better model which is still better approximated than only one sine wave per eigenvalue we tested keeping two waves for the first eigenvalue but using only one wave for the second.
+This allowed us to use 17 of the 19 test subject for our further steps.
 
 \section{Results}
 
@@ -339,7 +367,7 @@ Given the eigenjumpers and the average motionvector one can reconstruct any moti
 For this reason the coefficients that belong to one subject's data are another representation of this subject's jumping motion.
 The matrix K contains these coefficients. Each row of K consists of one subject's jumping motion. In the following we will use $k_{i}$ as a name for the i-th row of K, being the coefficients of the i-th jumping motion.
 Due to the PCA the entries in the beginning of each row contribute the most to the representation of the jumping motion, whereas the entries in the end of the row contain little information and might be omitted.
-As we will see later the choice of how many of the coefficients we are going to use for classification is an important one, because too few coeffiecients might not be an adequate representation of the motion, while too many coefficients will describe each motion too specifically and therefore might be difficult to classify.
+As we will see later the choice of how many of the coefficients we are going to use for classification is an important one, because too few coefficients might not be an adequate representation of the motion, while too many coefficients will describe each motion too specifically and therefore might be difficult to classify.
 
 \subsection{Creating the Classifier c}
 
@@ -353,8 +381,8 @@ The number of coefficients was more than 140, which is far more than the number 
 
 \subsection{Classifying Jumping Motions}
 
-Any of the recorded jumpin motions can be classified by building the dot product of the corresponding coefficients and the classifier c.
-Due to the defintion of c, the result of this dot product is either 1 or -1, indicating whether the jumping motion was performed with or without the weight-vest.
+Any of the recorded jumping motions can be classified by building the dot product of the corresponding coefficients and the classifier c.
+Due to the definition of c, the result of this dot product is either 1 or -1, indicating whether the jumping motion was performed with or without the weight-vest.
 As mentioned earlier, most of the information about a motion is contained in the entries at the beginning.
 It is now examined how well the classifier works if it is not used completely, but rather only the first n entries of c and $k_{i}$ were used to determine whether the weight-vest influenced the i-th jumping motion or not.
 Instead of the dot product, the term
