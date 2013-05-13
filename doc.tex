@@ -147,7 +147,7 @@ The chart should clear up the flow of data in our project from the recording to 
 \begin{figure}
 	\centering
 	\includegraphics[width=16cm]{matlabaufbau.png}
-	\caption{Overview of the workflow of the data. The data enters the workflow at the \CS node at the top, written into a text file labeled according to the parameters of the recording. Emboldened nodes mark the MATLAB scripts that processed the raw data into more refined data. Note that the output data was always saved as text between steps too. This allowed a very flexible workflow. For creating the pictures and videos, motionAnalysis.m was used. The other branch of nodes is used to synthesize data.}
+	\caption{Overview of the workflow of the data. The data enters the workflow at the C-Sharp node at the top, written into a text file labeled according to the parameters of the recording. Emboldened nodes mark the MATLAB scripts that processed the raw data into more refined data. Note that the output data was always saved as text between steps too. This allowed a very flexible workflow. For creating the pictures and videos, motionAnalysis.m was used. The other branch of nodes is used to synthesize data.}
 	\label{fig:workflow}
 \end{figure}
 
@@ -271,8 +271,7 @@ The fitted graph of the example mentioned above can be seen at the bottom of fig
 		\centering
 		\includegraphics[width=\textwidth]{1sinHamp.png}
 		\caption{Coefficients of the first two eigenpostures of a jumping jack motion (top) and their sinusoidal approximation using one sine function (bottom).
-		Comparing the two graphs we can see that the first wave's top curve is approximated inaccurately but also the second wave's irregularity cannot be fitted well.
-		Which both results in a fit that is not optimal.}
+		Comparing the two graphs we can see that the first wave's top curve is approximated inaccurately but also the second wave's irregularity cannot be fitted well.}
 		\label{fig:approx}
 \end{figure}
 
@@ -377,13 +376,13 @@ The result is the following table .
 
 \begin{center}
 \begin{tabular}{l|l|c|c}
-Motion & Sine Waves & \# fitting test subjects & \# total test subjects \\
+Motion & Sine Waves & Good Test Subjects & Total Test Subjects \\
 \hline
-\multirow{3}{*}{Jumping Jack} & 1 per EV & 18 & \multirow{3}{*}{19} \\ \cline{2-3}
- & 2 for 1. EV, 1 for 2. EV  & 17 \\ \cline{2-3}
- & 2 per EV & 13 \\ \cline{2-3}
+\multirow{3}{*}{Jumping Jack} & 1 per eigenvalue & 18 & \multirow{3}{*}{19} \\ \cline{2-3}
+ & 2 for 1. eigenvalue, 1 for 2. eigenvalue  & 17 \\ \cline{2-3}
+ & 2 per eigenvalue & 13 \\ \cline{2-3}
 \hline
-Rope Skipping & 1 sine per EV & 16 & 16 \\
+Rope Skipping & 1 sine per eigenvalue & 16 & 16 \\
 \end{tabular}
 \end{center}
 
