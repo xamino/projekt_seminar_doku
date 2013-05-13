@@ -240,7 +240,20 @@ In figure \ref{fig:jumpingJackAverageEigenvalues} and \ref{fig:ropeSkippingAvera
 		\label{fig:ropeSkippingAverageEigenvalues}
 \end{figure}
 
-% Todo: PCA Bild mit Erklärung
+We animated dots of different colors to examine how much of the visual information about the postures is lost by omiting the last 46 eigenpostures.
+An example of a jumping jack motion is shown in figure \ref{fig:orig_pca_1}.
+As you can see, the two dot-skeletons don't completely match, but the loss of information is minimal.
+
+\begin{figure}
+		\centering
+		\includegraphics[height=0.3\textheight]{comparison_Original_PCA.png}
+		\caption{Recorded jumping jack in comparison with the data after doing the PCA.
+		The blue dots show the recorded subject whereas the red dots show the posture calculated using only the first two eigenvectors.
+		In the center is a comparison of how well the two eigenpostures represent the original posture.
+		}
+		\label{fig:orig_pca_1}
+\end{figure}
+
 % Todo: Wie kommt man von der PCA auf die Coeffizienten für Sinusdarstellung (mit Formel)
 
 \subsection{Sinusoidal--Approximation of Coefficients}
@@ -318,22 +331,18 @@ In \cite{origin} the subject's data was normalized according to the subject's he
 
 \begin{figure}
 		\centering
-		\includegraphics[height=0.3\textheight]{comparison_Original_PCA.png}
 		\includegraphics[height=0.3\textheight]{comparison_PCA_Fit.png}
 		\includegraphics[height=0.3\textheight]{comparison_alles.png}
-		\caption{Recorded data in comparison with the data after doing a PCA (Top).
-		The visible loss of information is minimal here.
-		The center figure shows the comparison of the PCA data and the data after doing the sinusoidal fit.
-		Here there is a visible difference to recognizable which can be seen more clearly comparing the original with the final data (Bottom).
+		\caption{The top figure shows the comparison of the data after the PCA and the data after doing the sinusoidal fit.
+		Here there is a recognizable difference which can be seen more clearly comparing the original recording with the final data (Bottom).
 		However the motion itself still looks very much like the recorded one and the loss of information is acceptable.
 		}
 		\label{fig:orig_pca}
 \end{figure}
 
 Having documented how much variance is lost using only the first two eigenvalues of the PCA and fitting our coefficients with a sine function, we now take a look at how much these errors affect the actual motion.
-As an example we look at the jumping jack motion in a two dimensional point representation.
-The step from the original data to using the eigenvalues from the PCA is shown in figure \ref{fig:orig_pca} at the top.
-The next step from the PCA to the fit is shown below and a comparison between the original data and the final data is show at the bottom of the figure.
+As before, we animated dot-skeletons to demonstrate the visible loss of information.
+The step from the PCA to the fit is shown at the top and a comparison between the original data and the final data is show at the bottom of the figure.
 Looking at these comparison figures in an animated form the lack of information can be seen for example in delayed hand and foot joints.
 Another cause for this kind of error is the fact that test subjects cannot jump in the very same way over multiple cycles resulting in small correlation when fitting the motion to a sine function.
 In summary the loss of information coming from the PCA and fit has minimal impact in the visual representation and recognizability of the motion and thus is acceptable for our cause.
