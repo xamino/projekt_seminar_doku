@@ -187,13 +187,15 @@ An example of the recording can be seen here: \url{http://youtu.be/CJLkOyAGtjk}.
 
 \section{Creating Motionvectors to Represent Motion Data}
 
+\subsection{Using Principal Component Analysis to Reduce Redundancy Within the Motion}
+
 Having saved all of the skeleton data received from the Kinect into text files, the representation of the jumping motion of every subject is a huge matrix.
 Each row of this matrix represents one single posture of the subject's body consisting of 48 values.
 Each of the 16 joints is represented by three floating-point numbers specifying the three-dimensional position of the joint.
 The postures can also be seen as points in the 48 dimensional space.
 
 This data is highly redundant.
-For example, jumping jack and jump rope are symmetrical motions.
+For example, jumping jack and rope skipping are symmetrical motions.
 The right arm moves the same way as the left arm does, except that it is mirrored.
 The same goes for the legs.
 
@@ -203,6 +205,40 @@ The vectors that represent the axes of the transformed coordinate system are cal
 The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$.
 The principal components are the eigenvectors of the covariance matrix of the skeleton data set.
 Like in \cite{origin} we are going to refer to these eigenvectors as "eigenpostures" to distinguish them from the eigenvectors of another PCA we are going to use later.
+
+The results of the PCA are the eigenpostures ($p_{i}$ refers to the i-th eigenposture), the coefficients that have to be multiplied with the eigenpostures ($c_{i}$ refers to the coefficient of the i-th principal component) and the eigenvalues. Each eigenposture has a corresponding eigenvalue that indicates the variance the eigenposture accounts for.
+
+Given the eigenpostures, the coefficients and the average posture $p_{0}$ any posture p of the recorded motion can be reconstructed using the following equation (See \cite{origin}):
+
+\begin{align}
+	p = p_{0} + \sum^{48}_{i = 1} c_{i} p_{i} \label{eq:reconstructPosture}
+\end{align}
+
+Since the first n eigenpostures account for as much as possible of the variance of the postures, a posture can be approximated using only the first n eigenpostures:
+
+\begin{align}
+	p = p_{0} + \sum^{n}_{i = 1} c_{i} p_{i} \label{eq:approxPosture}
+\end{align}
+
+where p is the approximation for the posture.
+
+In figure \ref{fig:jumpingJackAverageEigenvalues} and \ref{fig:ropeSkippingAverageEigenvalues} you can see that for jumping jack the first two eigenpostures already cover on average more than 95\% of the total variance. With rope skipping it is more than 85\%. An explanation for PCA seeming to work significantly worse with rope skipping than with jumping jack is that rope skipping is a more three-dimensional motion than jumping jack. (Jumping jack is performed exclusively in a two-dimensional plane.) Therefore the reduction of dimensionality works better with jumping jack.
+
+\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{DurchschnittHampelmann_eigenwerte.png}
+		\caption{Average of the first ten eigenvalues (in percent of the total variance) of all jumping jack motions. The blue bars show the n-th eigenvalue, the yellow bars show the sum of the first n eigenvalues.
+		You can see that the first two eigenpostures cover on average more than 95\% of the total variance.}
+		\label{fig:jumpingJackAverageEigenvalues}
+\end{figure}
+
+\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{DurchschnittSeilhuepfen_eigenwerte.png}
+		\caption{Average of the first ten eigenvalues (in percent of the total variance) of all rope skipping motions. The blue bars show the n-th eigenvalue, the yellow bars show the sum of the first n eigenvalues.
+		You can see that the first two eigenpostures cover on average more than 85\% of the total variance, which is significantly less than the variance the first two eigenpostures of the jumping jack covered.}
+		\label{fig:ropeSkippingAverageEigenvalues}
+\end{figure}
 
 % Todo: PCA Bild mit Erklärung
 % Todo: Wie kommt man von der PCA auf die Coeffizienten für Sinusdarstellung (mit Formel)
@@ -261,8 +297,8 @@ The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 		\label{fig:approx3}
 \end{figure}
 
-\subsection{First Adaptions of the Recorded Data}
-While jumping there are unwanted side-effects. People can't continuously jump just up and down, but also back- and sidewards. This fact effects our first two eigenvectors. They lose importance in representing the whole movement. So we idealize the movement by moving each posture horizontally, so that the hip joint is exactly above the origin of the coordinate system.
+\subsection{Adaptions of the Recorded Data}
+While jumping there are unwanted side-effects. People can't continuously jump just up and down, but also have to move backwards, forwards and sidewards. This fact effects our first two eigenpostures. They lose importance in representing the whole movement. So we idealize the movement by moving each posture horizontally, so that the hip joint is exactly above the origin of the coordinate system.
 The result can be seen in figure \ref{fig:sammel}.
 
 % Was ist mit normalisieren der Hüfte auf x? 
