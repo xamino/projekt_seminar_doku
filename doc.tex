@@ -220,9 +220,12 @@ Since the first n eigenpostures account for as much as possible of the variance 
 	p = p_{0} + \sum^{n}_{i = 1} c_{i} p_{i} \label{eq:approxPosture}
 \end{align}
 
-where p is the approximation for the posture.
+where p is the approximation of the posture.
 
-In figure \ref{fig:jumpingJackAverageEigenvalues} and \ref{fig:ropeSkippingAverageEigenvalues} you can see that for jumping jack the first two eigenpostures already cover on average more than 95\% of the total variance. With rope skipping it is more than 85\%. An explanation for PCA seeming to work significantly worse with rope skipping than with jumping jack is that rope skipping is a more three-dimensional motion than jumping jack. (Jumping jack is performed exclusively in a two-dimensional plane.) Therefore the reduction of dimensionality works better with jumping jack.
+In figure \ref{fig:jumpingJackAverageEigenvalues} and \ref{fig:ropeSkippingAverageEigenvalues} you can see that for jumping jack the first two eigenpostures already cover on average more than 95\% of the total variance. With rope skipping it is more than 85\%.
+An explanation for PCA seeming to work significantly worse with rope skipping than with jumping jack is that rope skipping is a more three-dimensional motion than jumping jack. (Jumping jack is performed exclusively in a two-dimensional plane.)
+Therefore the reduction of dimensionality works better with jumping jack.
+For reasons explained in \ref{sinusoidalApprox} we made do with the exactness of the first two eigenpostures for jumping jack and rope skipping. Hence, in the following we will use equation \label{eq:approxPosture} with n=2.
 
 \begin{figure}
 		\centering
@@ -256,15 +259,19 @@ As you can see, the two dot-skeletons don't completely match, but the loss of in
 
 % Todo: Wie kommt man von der PCA auf die Coeffizienten für Sinusdarstellung (mit Formel)
 
-\subsection{Sinusoidal--Approximation of Coefficients}
-A graphical representation of an \emph{eigenposture} for a jumping jack motion can be seen at the top of figure \ref{fig:approx}.
-Here the blue curve represents the first coefficient of the \emph{eigenposture} and the green curve the second coefficient.
+\subsection{Sinusoidal--Approximation of Coefficients}\label{sinusoidalApprox}
+A graphical representation of the coefficients of the first two \emph{eigenpostures} of a jumping jack motion can be seen at the top of figure \ref{fig:approx}.
+Here the blue curve represents the first coefficient of the \emph{eigenposture} and the green curve the second coefficient as functions of the time.
 Apparently this graph looks similar to a sinusoidal graph.
 The reason for this characteristic is that our jumping motions are cyclic motions.
 Therefore the coefficients of our \emph{eigenpostures} can be approximated using sinusoidal functions.
 This is done similar to the approach of \cite{origin}.
 Hereby a sine function is used to describe each of the coefficients of the \emph{eigenposture}.
-The approximation is done using MATLAB's integrated \emph{fit} function.
+The approximation is done using MATLAB's integrated \emph{fit} function, which finds for each \emph{eigenposture} the amplitude, the frequency and phase so that the sine function defined by these parameters fits best to the corresponding coefficients.
+We experienced that the frequency of the second eigenposture's coefficients is twice the frequency of the first eigenposture's coefficients.
+Therefore we only need to know the first frequency.
+Since the time when the recording started, is irrelevant, we don't need to know the first phase, but we need to know the second phase with respect to the first one.
+
 The fitted graph of the example mentioned above can be seen at the bottom of figure \ref{fig:approx}.
 
 \begin{figure}
@@ -274,6 +281,14 @@ The fitted graph of the example mentioned above can be seen at the bottom of fig
 		Comparing the two graphs we can see that the first wave's top curve is approximated inaccurately but also the second wave's irregularity cannot be fitted well.}
 		\label{fig:approx}
 \end{figure}
+
+At the time t, an approximated posture p(t) can now be reconstructed using (See \cite{origin}):
+
+\begin{align}
+	p(t) = p_{0} + p_{1} \cdot a_{1} \cdot sin(\omega t) + p_{2} \cdot a_{2} \cdot sin(2 \omega t + \phi) \label{eq:approxPostureSin}
+\end{align}
+
+Where $\omega$ is the frequency of the first sine function, $\phi$ is the phase of the second sine function with respect to the phase of the first one, and $a_{i}$ is the amplitude of the i-th sine function.
 
 MATLAB's \emph{fit} function also outputs the goodness of the fit in form of the square of the correlation (\emph{rsquare}).
 Here values close to zero mean a bad fit and values close to one a good fit.
@@ -311,9 +326,7 @@ The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 
 \subsection{Adaptions of the Recorded Data}
 While jumping there are unwanted side-effects. People can't continuously jump just up and down, but also have to move backwards, forwards and sidewards. This fact effects our first two eigenpostures. They lose importance in representing the whole movement. So we idealize the movement by moving each posture horizontally, so that the hip joint is exactly above the origin of the coordinate system.
-The result can be seen in figure \ref{fig:sammel}.
-
-% Was ist mit normalisieren der Hüfte auf x? 
+The result can be seen in figure \ref{fig:sammel}. 
 
 \begin{figure}
 	\centering
