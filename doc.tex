@@ -268,10 +268,6 @@ Therefore the coefficients of our \emph{eigenpostures} can be approximated using
 This is done similar to the approach of \cite{origin}.
 Hereby a sine function is used to describe each of the coefficients of the \emph{eigenposture}.
 The approximation is done using MATLAB's integrated \emph{fit} function, which finds for each \emph{eigenposture} the amplitude, the frequency and phase so that the sine function defined by these parameters fits best to the corresponding coefficients.
-We experienced that the frequency of the second eigenposture's coefficients is twice the frequency of the first eigenposture's coefficients.
-Therefore we only need to know the first frequency.
-Since the time when the recording started, is irrelevant, we don't need to know the first phase, but we need to know the second phase with respect to the first one.
-
 The fitted graph of the example mentioned above can be seen at the bottom of figure \ref{fig:approx}.
 
 \begin{figure}
@@ -282,26 +278,56 @@ The fitted graph of the example mentioned above can be seen at the bottom of fig
 		\label{fig:approx}
 \end{figure}
 
-At the time t, an approximated posture p(t) can now be reconstructed using (See \cite{origin}):
+With the jumping jack we experienced that the frequency of the second eigenposture's coefficients is twice the frequency of the first eigenposture's coefficients.
+(This is true for all but one subject whose motion wasn't sinusoidal at all.
+We discontinued using that subject's data since it wasn't what we would consider a valid jumping jack)
+Therefore we only need to know the first frequency.
+We also had a closer look at the third and forth eigenpostures but since the periodicity of their coefficients had a frequency that was not always a multiple of the first eigenposture's, we decided to only use the first two eigenpostures (This goes for jumping jack \emph{and} rope skipping). 
+
+Since the time when the recording started, is irrelevant, \cite{origin} didn't use all the phases, because the first one could be omitted if all the other phases were saved with respect to the first one.
+Another observation concerning the jumping jack helped us to omit both phases:
+Whenever the first sine function had a local maximum, the second one always had one too.
+The phases of both sine functions could therefore be set to $\pi/2$.
+(In some rare cases the second sine function had a local minimum, where the first one had a maximum. In these cases we simply multiplied the second eigenposture by -1.)
+The approximated posture p(t) at time t can now be reconstructed using (See \cite{origin}):
 
 \begin{align}
-	p(t) = p_{0} + p_{1} \cdot a_{1} \cdot sin(\omega t) + p_{2} \cdot a_{2} \cdot sin(2 \omega t + \phi) \label{eq:approxPostureSin}
+	p(t) = p_{0} + p_{1} \cdot a_{1} \cdot sin(\omega t + \pi/2) + p_{2} \cdot a_{2} \cdot sin(2 \omega t + \pi/2) \label{eq:approxPostureSin}
 \end{align}
 
-Where $\omega$ is the frequency of the first sine function, $\phi$ is the phase of the second sine function with respect to the phase of the first one, and $a_{i}$ is the amplitude of the i-th sine function.
+Where $\omega$ is the frequency of the first sine function and $a_{i}$ is the amplitude of the i-th sine function. All $p_{i}$ were described before.
 
 MATLAB's \emph{fit} function also outputs the goodness of the fit in form of the square of the correlation (\emph{rsquare}).
 Here values close to zero mean a bad fit and values close to one a good fit.
 A value of one would be an exact fit with no information lost.
-The goodness of the fit shown in figure \ref{fig:approx} is 0.90225 for the first and 0.80946 for the second coefficient.
+The goodness of the fit shown in figure \ref{fig:approx} is on average 0.90225 for the first and 0.80946 for the second coefficient.
 This is a rather good result considering that we used a motion of ten full cycles as input and every difference in each of the cycles impairs the approximation.
 Also the approximation goodness of this example is close to the average goodness of all our jumping jack \emph{eigenpostures}.
 This also counts for the following examples.
 
 Also when looking back at our jumping jack example in figure \ref{fig:approx} we can see that especially the first coefficient is rather badly approximated on the top of the wave.
-We tried therefore an additional approach to get even better results. That is to use two overlapping sine functions for a better representation of each coefficient.
+We tried therefore an additional approach to get even better results with the jumping jack.
+That is to use two overlapping sine functions for a better representation of each coefficient.
 The result of this approach can be seen in figure \ref{fig:approx2}.
-Here the \emph{rsquare} values are 0.98515 for the first and 0.9366 for the second coefficient and thus represents a better model of our jumping jack motion.
+
+Using two sine functions to describe each eigenposture's coefficients resulted in four different amplitudes, four frequencies and four phases.
+We are going to refer to the frequency of the j-th sine function of the i-th eigenposture as $\omega_{i,j}$, to its phase as $\phi_{i,j}$ and to its amplitude as $a_{i,j}$.
+
+This time $\omega_{1,2}$ and $\omega_{2,1}$ were about twice $\omega_{1,1}$.
+$\omega_{2,2}$ was about the same as $\omega_{1,1}$.
+If those frequencies of a subject didn't fit into that pattern, we didn't use the subject with this approach.
+Unfortunately the phases weren't as regular as before so we had to use $\phi_{1,2}$, $\phi_{2,1}$ and $\phi_{2,2}$ with respect to $\phi_{1,1}$.
+The approximated posture p(t) at time t can now be reconstructed using:
+
+\begin{align}
+	\begin{aligned}
+		p(t) = p_{0} + p_{1} \cdot (a_{1,1} \cdot sin(\omega t) + a_{1,2} \cdot sin(2 \omega t + \phi_{1,2})) \\
+		 + p_{2} \cdot (a_{2,1} \cdot sin(2 \omega t + \phi_{2,1}) + a_{2,2} \cdot sin(\omega t + \phi_{2,2}))
+	\end{aligned}
+	\label{eq:approxPostureSin2}
+\end{align}
+
+Where all $\phi_{i,j}$ are with respect to $\phi_{1,1}$ and $\omega$ is $\omega_{1,1}$, all other parameters as they were described before.
 
 \begin{figure}
 		\centering
@@ -313,8 +339,30 @@ Here the \emph{rsquare} values are 0.98515 for the first and 0.9366 for the seco
 		\label{fig:approx2}
 \end{figure}
 
-The rope skipping motion, as seen in figure \ref{fig:approx3}, however does not have this characteristic so here only one sine function was used for our further work.
-The \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
+Here the average \emph{rsquare} values are 0.98515 for the first and 0.9366 for the second coefficient and thus represents a better model of our jumping jack motion.
+
+However, we had to sort out a number of subjects, whose data didn't fit into the described pattern.
+Especially the coefficients of the second eigenposture sometimes were hard to discribe using the sum of two sine functions. Therefore we used a third approach to describe a jumping jack motion.
+In this approach we used two sine functions to describe the coefficients of the first eigenposture and one sine function for the second eigenposture's coefficients.
+Any approximated posture p(t) at time t can now be reconstructed as follows:
+
+\begin{align}
+	\begin{aligned}
+		p(t) = p_{0} + p_{1} \cdot (a_{1,1} \cdot sin(\omega t) + a_{1,2} \cdot sin(2 \omega t + \phi_{1,2}))
+		 + p_{2} \cdot a_{2} \cdot sin(2 \omega t + \phi_{2})
+	\end{aligned}
+	\label{eq:approxPostureSin2_1}
+\end{align}
+
+Where $a_{2}$ is the amplitude of the sine function describing the second eigenposture's coefficients and $\phi_{2}$ its phase with respect to $\phi_{1,1}$. All other parameters are the same as described above.
+
+With rope skipping, as seen in figure \ref{fig:approx3}, the only solid way to descibe the coefficients of either eigenposture was a single sine function.
+Even though figure \ref{fig:approx3} shows the same effect as the jumping jack motion did concerning the phase difference of the two sine functions, not all the recorded rope skipping motions showed it.
+Not even the frequencies had a constant ratio.
+(Naturally, the one frequency was a multiple of the other, but it wasn't always the double)
+Therefore a very general set of parameters - two amplitudes $a_{1}$, $a_{2}$, two frequencies $\omega_{1}$, $\omega_{2}$ and one phase $\phi$ with respect to the other phase - was used to describe the coefficients.
+
+The average \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 
 \begin{figure}
 		\centering
@@ -331,7 +379,8 @@ The result can be seen in figure \ref{fig:sammel}.
 \begin{figure}
 	\centering
 	\includegraphics[width=15cm]{sammel.png}
-	\caption{Centering effect on coefficients. The top left graph shows the sinusoidal approximation a recorded motion without any centering. Here the second eigenvector's coefficients show a linear noncyclic behavior over the length of the recording.
+	\caption{Centering effect on coefficients. The top left graph shows the sinusoidal approximation a recorded motion without any centering.
+	Here the second eigenvector's coefficients show a linear noncyclic behavior over the length of the recording.
 	Also more eigenvalues of the PCA result are needed to cover most variance.
 	Centering the data the negative side-effects can be eliminated and the second eigenvector's wave behaves cyclic as we would have expected.}
 	\label{fig:sammel}
