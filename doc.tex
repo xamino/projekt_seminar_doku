@@ -200,7 +200,7 @@ The right arm moves the same way as the left arm does, except that it is mirrore
 The same goes for the legs.
 
 Therefore we hoped that the dimensionality of the postures could be drastically reduced without losing much of the information within the data using principal component analysis (henceforth referred to as PCA).
-Basically, what the PCA does is to rotate and move the 48 dimensional Cartesian coordinate system in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion.
+Basically, what the PCA does is to rotate and move the 48 dimensional cartesian coordinate system in which every possible three-dimensional 16-joint-skeleton posture can be represented as one point, so that for all n $\in \left\{1, ..., 48\right\}$ the first n axes account for as much as possible of the variance of the postures of one subject's jumping motion.
 The vectors that represent the axes of the transformed coordinate system are called the principal components.
 The origin of this coordinate system is the average of all postures, which we are going to refer to as average posture $p_{0}$.
 The principal components are the eigenvectors of the covariance matrix of the skeleton data set.
@@ -217,7 +217,7 @@ Given the eigenpostures, the coefficients and the average posture $p_{0}$ any po
 Since the first n eigenpostures account for as much as possible of the variance of the postures, a posture can be approximated using only the first n eigenpostures:
 
 \begin{align}
-	p = p_{0} + \sum^{n}_{i = 1} c_{i} p_{i} \label{eq:approxPosture}
+	p = p_{0} + \sum^{n}_{i = 1} c_{i} p_{i} \label{eq:approxPosture_01}
 \end{align}
 
 where p is the approximation of the posture.
@@ -225,7 +225,7 @@ where p is the approximation of the posture.
 In figure \ref{fig:jumpingJackAverageEigenvalues} and \ref{fig:ropeSkippingAverageEigenvalues} you can see that for jumping jack the first two eigenpostures already cover on average more than 95\% of the total variance. With rope skipping it is more than 85\%.
 An explanation for PCA seeming to work significantly worse with rope skipping than with jumping jack is that rope skipping is a more three-dimensional motion than jumping jack. (Jumping jack is performed exclusively in a two-dimensional plane.)
 Therefore the reduction of dimensionality works better with jumping jack.
-For reasons explained in \ref{sinusoidalApprox} we made do with the exactness of the first two eigenpostures for jumping jack and rope skipping. Hence, in the following we will use equation \label{eq:approxPosture} with n=2.
+For reasons explained in \ref{sinusoidalApprox} we made do with the exactness of the first two eigenpostures for jumping jack and rope skipping. Hence, in the following we will use equation \ref{eq:approxPosture_01} with n=2.
 
 \begin{figure}
 		\centering
@@ -243,15 +243,15 @@ For reasons explained in \ref{sinusoidalApprox} we made do with the exactness of
 		\label{fig:ropeSkippingAverageEigenvalues}
 \end{figure}
 
-We animated dots of different colors to examine how much of the visual information about the postures is lost by omiting the last 46 eigenpostures.
-An example of a jumping jack motion is shown in figure \ref{fig:orig_pca_1}.
+To examine how much of the visual information about the postures is lost by omiting the last 46 eigenpostures, we animated dots of different colors representing the skeleton data.
+An example of such a jumping jack posture is shown in figure \ref{fig:orig_pca_1}.
 As you can see, the two dot-skeletons don't completely match, but the loss of information is minimal.
 
 \begin{figure}
 		\centering
 		\includegraphics[height=0.3\textheight]{comparison_Original_PCA.png}
 		\caption{Recorded jumping jack in comparison with the data after doing the PCA.
-		The blue dots show the recorded subject whereas the red dots show the posture calculated using only the first two eigenvectors.
+		The blue dots show the recorded subject whereas the red dots show the posture calculated using only the first two eigenpostures.
 		In the center is a comparison of how well the two eigenpostures represent the original posture.
 		}
 		\label{fig:orig_pca_1}
@@ -260,14 +260,14 @@ As you can see, the two dot-skeletons don't completely match, but the loss of in
 % Todo: Wie kommt man von der PCA auf die Coeffizienten für Sinusdarstellung (mit Formel)
 
 \subsection{Sinusoidal--Approximation of Coefficients}\label{sinusoidalApprox}
-A graphical representation of the coefficients of the first two \emph{eigenpostures} of a jumping jack motion can be seen at the top of figure \ref{fig:approx}.
-Here the blue curve represents the first coefficient of the \emph{eigenposture} and the green curve the second coefficient as functions of the time.
+A graphical representation of a jumping jack motion's first two eigenposture's coefficients over time can be seen at the top of figure \ref{fig:approx}.
+Here the blue curve represents the first coefficient of the eigenposture and the green curve the second coefficient as functions of the time.
 Apparently this graph looks similar to a sinusoidal graph.
 The reason for this characteristic is that our jumping motions are cyclic motions.
-Therefore the coefficients of our \emph{eigenpostures} can be approximated using sinusoidal functions.
+Therefore the coefficients of our eigenpostures can be approximated using sinusoidal functions.
 This is done similar to the approach of \cite{origin}.
-Hereby a sine function is used to describe each of the coefficients of the \emph{eigenposture}.
-The approximation is done using MATLAB's integrated \emph{fit} function, which finds for each \emph{eigenposture} the amplitude, the frequency and phase so that the sine function defined by these parameters fits best to the corresponding coefficients.
+Hereby a sine function is used to describe each of the coefficients of the eigenposture.
+The approximation is done using MATLAB's integrated \emph{fit} function, which finds for each eigenposture the amplitude, the frequency and phase so that the sine function defined by these parameters fits best to the corresponding coefficients.
 The fitted graph of the example mentioned above can be seen at the bottom of figure \ref{fig:approx}.
 
 \begin{figure}
@@ -280,9 +280,9 @@ The fitted graph of the example mentioned above can be seen at the bottom of fig
 
 With the jumping jack we experienced that the frequency of the second eigenposture's coefficients is twice the frequency of the first eigenposture's coefficients.
 (This is true for all but one subject whose motion wasn't sinusoidal at all.
-We discontinued using that subject's data since it wasn't what we would consider a valid jumping jack)
+We discontinued using that subject's data since it wasn't what we would consider a valid jumping jack.)
 Therefore we only need to know the first frequency.
-We also had a closer look at the third and forth eigenpostures but since the periodicity of their coefficients had a frequency that was not always a multiple of the first eigenposture's, we decided to only use the first two eigenpostures (This goes for jumping jack \emph{and} rope skipping). 
+We also had a closer look at the third and forth eigenpostures but since the periodicity of their coefficients had a frequency that was not always a multiple of the first eigenposture's, we decided to only use the first two eigenpostures. (This goes for jumping jack \emph{and} rope skipping.) 
 
 Since the time when the recording started, is irrelevant, \cite{origin} didn't use all the phases, because the first one could be omitted if all the other phases were saved with respect to the first one.
 Another observation concerning the jumping jack helped us to omit both phases:
@@ -302,7 +302,7 @@ Here values close to zero mean a bad fit and values close to one a good fit.
 A value of one would be an exact fit with no information lost.
 The goodness of the fit shown in figure \ref{fig:approx} is on average 0.90225 for the first and 0.80946 for the second coefficient.
 This is a rather good result considering that we used a motion of ten full cycles as input and every difference in each of the cycles impairs the approximation.
-Also the approximation goodness of this example is close to the average goodness of all our jumping jack \emph{eigenpostures}.
+Also the approximation goodness of this example is close to the average goodness of all our jumping jack eigenpostures.
 This also counts for the following examples.
 
 Also when looking back at our jumping jack example in figure \ref{fig:approx} we can see that especially the first coefficient is rather badly approximated on the top of the wave.
@@ -327,7 +327,7 @@ The approximated posture p(t) at time t can now be reconstructed using:
 	\label{eq:approxPostureSin2}
 \end{align}
 
-Where all $\phi_{i,j}$ are with respect to $\phi_{1,1}$ and $\omega$ is $\omega_{1,1}$, all other parameters as they were described before.
+Where all $\phi_{i,j}$ are with respect to $\phi_{1,1}$ and $\omega$ is $\omega_{1,1}$, all other parameters are the same as described before.
 
 \begin{figure}
 		\centering
@@ -342,7 +342,7 @@ Where all $\phi_{i,j}$ are with respect to $\phi_{1,1}$ and $\omega$ is $\omega_
 Here the average \emph{rsquare} values are 0.98515 for the first and 0.9366 for the second coefficient and thus represents a better model of our jumping jack motion.
 
 However, we had to sort out a number of subjects, whose data didn't fit into the described pattern.
-Especially the coefficients of the second eigenposture sometimes were hard to discribe using the sum of two sine functions. Therefore we used a third approach to describe a jumping jack motion.
+Especially the coefficients of the second eigenposture sometimes were hard to describe using the sum of two sine functions. Therefore we used a third approach to describe a jumping jack motion.
 In this approach we used two sine functions to describe the coefficients of the first eigenposture and one sine function for the second eigenposture's coefficients.
 Any approximated posture p(t) at time t can now be reconstructed as follows:
 
@@ -356,11 +356,18 @@ Any approximated posture p(t) at time t can now be reconstructed as follows:
 
 Where $a_{2}$ is the amplitude of the sine function describing the second eigenposture's coefficients and $\phi_{2}$ its phase with respect to $\phi_{1,1}$. All other parameters are the same as described above.
 
-With rope skipping, as seen in figure \ref{fig:approx3}, the only solid way to descibe the coefficients of either eigenposture was a single sine function.
+With rope skipping, as seen in figure \ref{fig:approx3}, the only solid way to describe the coefficients of either eigenposture was a single sine function.
 Even though figure \ref{fig:approx3} shows the same effect as the jumping jack motion did concerning the phase difference of the two sine functions, not all the recorded rope skipping motions showed it.
 Not even the frequencies had a constant ratio.
-(Naturally, the one frequency was a multiple of the other, but it wasn't always the double)
-Therefore a very general set of parameters - two amplitudes $a_{1}$, $a_{2}$, two frequencies $\omega_{1}$, $\omega_{2}$ and one phase $\phi$ with respect to the other phase - was used to describe the coefficients.
+(Naturally, the one frequency was a multiple of the other, but it wasn't always the double.)
+Therefore a very general set of parameters - two amplitudes $a_{1}$, $a_{2}$, two frequencies $\omega_{1}$, $\omega_{2}$ and one phase $\phi$ with respect to the other phase - was used to describe the coefficients. The corresponding equation is:
+
+\begin{align}
+	\begin{aligned}
+		p(t) = p_{0} + p_{1} \cdot a_{1} \cdot sin(\omega_{1} t) + p_{2} \cdot a_{2} \cdot sin(\omega_{2} t + \phi)
+	\end{aligned}
+	\label{eq:approxPostureSinRope}
+\end{align}
 
 The average \emph{rsquare} values here are 0.98886 and 0.84932 for the two coefficients.
 
@@ -379,10 +386,10 @@ The result can be seen in figure \ref{fig:sammel}.
 \begin{figure}
 	\centering
 	\includegraphics[width=15cm]{sammel.png}
-	\caption{Centering effect on coefficients. The top left graph shows the sinusoidal approximation a recorded motion without any centering.
-	Here the second eigenvector's coefficients show a linear noncyclic behavior over the length of the recording.
-	Also more eigenvalues of the PCA result are needed to cover most variance.
-	Centering the data the negative side-effects can be eliminated and the second eigenvector's wave behaves cyclic as we would have expected.}
+	\caption{Centering effect on coefficients. The top left graph shows the sinusoidal approximation of a recorded motion without any centering.
+	Here the second eigenposture's coefficients show a linear noncyclic behavior over the length of the recording.
+	Also more eigenpostures of the PCA result are needed to cover most variance.
+	Centering the data the negative side-effects can be eliminated and the second eigenposture's wave behaves cyclic as we would have expected.}
 	\label{fig:sammel}
 \end{figure}
 
@@ -401,35 +408,34 @@ In \cite{origin} the subject's data was normalized according to the subject's he
 		\label{fig:orig_pca}
 \end{figure}
 
-Having documented how much variance is lost using only the first two eigenvalues of the PCA and fitting our coefficients with a sine function, we now take a look at how much these errors affect the actual motion.
+Having documented how much variance is lost using only the first two eigenpostures of the PCA and fitting our coefficients with a sine function, we took a look at how much these errors affect the motion visually.
 As before, we animated dot-skeletons to demonstrate the visible loss of information.
-The step from the PCA to the fit is shown at the top and a comparison between the original data and the final data is show at the bottom of the figure.
+The step from the PCA to the fit is shown at the top and a comparison between the original data and the final data is shown at the bottom of the figure.
 Looking at these comparison figures in an animated form the lack of information can be seen for example in delayed hand and foot joints.
 Another cause for this kind of error is the fact that test subjects cannot jump in the very same way over multiple cycles resulting in small correlation when fitting the motion to a sine function.
 In summary the loss of information coming from the PCA and fit has minimal impact in the visual representation and recognizability of the motion and thus is acceptable for our cause.
 
 
-\subsection{Creation of Motion Vectors}
-To create a motion vector, which is to describe the full motion cycle using our sinusoidal approximation, we need the average posture created earlier and the first two \emph{eigenpostures} including the sinusoidal approximation of their coefficients.
-However due to the centering mentioned earlier we don't need all three positional values of our skeleton points, but can ignore X and Y values for the hip.
-Therefore we have three positional values X,Y,Z for 15 skeleton points and only one additional for the hip resulting in 46 values for each posture.
-To describe the sinusoidal approximation we use four different setups:
+\subsection{Creation of Motionvectors}
+To create a motionvector, which is to describe the full motion using our sinusoidal approximation, we need the average posture created earlier and the first two eigenpostures including the sinusoidal approximation of their coefficients.
+However due to the centering mentioned earlier we don't need all three positional values of our skeleton points, but can ignore X and Y values for the hip (since they are always zero).
+Therefore we have three positional values X, Y, Z for 15 skeleton points and only one additional for the hip resulting in 46 values for each posture.
+To describe the sinusoidal approximation we used the four different setups as described above:
 
-When using one sine wave for each \emph{eigenposture} and the jumping jack motion, it is sufficient to track the wave's amplitude for each posture and one frequency since the second wave's frequency is exactly twice the first one's for all test subjects.
-Also, as the waves are in phase for all test subjects we did not have to track the phases.
-This results in motion vector of 141 dimensions to describe the jumping jack motion.
+When using one sine wave for each eigenposture and the jumping jack motion, it is sufficient to track the wave's amplitude for each posture and one frequency since the second wave's frequency is exactly twice the first one's for all test subjects.
+Also, for reasons explained above, we did not have to track the phases.
+This results in a motionvector of 141 dimensions to describe the jumping jack motion.
 
-When using two sine waves for each of the \emph{eigenpostures} and the jumping jack motion, we need to track the four wave's amplitudes the frequency and three phases relative to the first wave's phase.
-This results in a 146 dimensional motion vector.
+When using two sine waves for each of the eigenpostures and the jumping jack motion, we need to track the four wave's amplitudes the frequency and three phases relative to the first wave's phase.
+This results in a 146 dimensional motionvector.
 
-When using two overlapping sine waves for the first and one sine wave for the second \emph{eigenposture} of the jumping jack motion, we need to track the three wave's amplitudes the frequency and two phases relative to the first waves's phase.
-This results in a 144 dimensional motion vector.
+When using two overlapping sine waves for the first and one sine wave for the second eigenposture of the jumping jack motion, we need to track the three wave's amplitudes the frequency and two phases relative to the first waves's phase.
+This results in a 144 dimensional motionvector.
 The reason for using the extra model is explained in section \ref{sec:testsubjects}.
 
 For our rope skipping motion we need the two amplitudes but also two frequencies as there is no recognizable pattern in the waves.
-It appears to be a multiple of the first frequency for some test subjects but not always the double.
 Also one phase is needed for the second wave relative to the first one.
-This results in a 143 dimensional motion vector for the rope skipping motion.
+This results in a 143 dimensional motionvector for the rope skipping motion.
 
 \subsection{Test Subjects}
 \label{sec:testsubjects}
@@ -440,18 +446,18 @@ The result is the following table .
 \begin{tabular}{l|l|c|c}
 Motion & Sine Waves & Good Test Subjects & Total Test Subjects \\
 \hline
-\multirow{3}{*}{Jumping Jack} & 1 per eigenvalue & 18 & \multirow{3}{*}{19} \\ \cline{2-3}
- & 2 for 1. eigenvalue, 1 for 2. eigenvalue  & 17 \\ \cline{2-3}
- & 2 per eigenvalue & 13 \\ \cline{2-3}
+\multirow{3}{*}{Jumping Jack} & 1 per eigenposture & 18 & \multirow{3}{*}{19} \\ \cline{2-3}
+ & 2 for 1. eigenposture, 1 for 2. eigenposture  & 17 \\ \cline{2-3}
+ & 2 per eigenposture & 13 \\ \cline{2-3}
 \hline
-Rope Skipping & 1 sine per eigenvalue & 16 & 16 \\
+Rope Skipping & 1 sine per eigenposture & 16 & 16 \\
 \end{tabular}
 \end{center}
 
 Not fitting means that for instance a frequency was not a multiple of the base frequency and thus could not be represented by the specific model.
 So for our improved approximation using two overlapping sine waves for the jumping jack motion we could not represent six of the 19 test subjects.
-In an attempt to get a better model which is still better approximated than only one sine wave per eigenvalue we tested keeping two waves for the first eigenvalue but using only one wave for the second.
-This allowed us to use 17 of the 19 test subject for our further steps.
+In an attempt to get a better model which is still better approximated than only one sine wave per eigenposture we tested keeping two waves for the first eigenposture but using only one wave for the second.
+This allowed us to use 17 of the 19 test subject for our further steps. 
 
 \section{Results}
 
