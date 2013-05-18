@@ -19,6 +19,8 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{amsmath}
+% Better captions:
+\usepackage[font=small,labelfont=bf]{caption}
 \bibliographystyle{alpha}
 \usepackage{multirow}
 
@@ -257,8 +259,6 @@ As you can see, the two dot-skeletons don't completely match, but the loss of in
 		\label{fig:orig_pca_1}
 \end{figure}
 
-% Todo: Wie kommt man von der PCA auf die Coeffizienten für Sinusdarstellung (mit Formel)
-
 \subsection{Sinusoidal--Approximation of Coefficients}\label{sinusoidalApprox}
 A graphical representation of a jumping jack motion's first two eigenposture's coefficients over time can be seen at the top of figure \ref{fig:approx}.
 Here the blue curve represents the first coefficient of the eigenposture and the green curve the second coefficient as functions of the time.
@@ -447,7 +447,7 @@ The result is the following table .
 Motion & Sine Waves & Good Test Subjects & Total Test Subjects \\
 \hline
 \multirow{3}{*}{Jumping Jack} & 1 per eigenposture & 18 & \multirow{3}{*}{19} \\ \cline{2-3}
- & 2 for 1. eigenposture, 1 for 2. eigenposture  & 17 \\ \cline{2-3}
+ & \begin{tabular}[l]{@{}c@{}}2 for first eigenposture,\\1 for second eigenposture\end{tabular}  & 17 \\ \cline{2-3}
  & 2 per eigenposture & 13 \\ \cline{2-3}
 \hline
 Rope Skipping & 1 sine per eigenposture & 16 & 16 \\
